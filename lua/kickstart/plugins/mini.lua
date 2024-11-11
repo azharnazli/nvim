@@ -4,6 +4,9 @@ return {
     config = function()
       require('mini.ai').setup { n_lines = 50 }
       require('mini.surround').setup()
+      require('mini.cursorword').setup()
+      require('mini.indentscope').setup()
+      require('mini.starter').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,

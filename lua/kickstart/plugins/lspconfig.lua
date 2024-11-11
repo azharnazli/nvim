@@ -30,24 +30,6 @@ return {
       {
         'hrsh7th/cmp-nvim-lsp',
         optional = true,
-
-        {
-          'js-everts/cmp-tailwind-colors',
-          opts = {},
-        },
-        opts = function(_, opts)
-          local format_kinds = opts.formatting.format
-          opts.formatting.format = function(entry, item)
-            if item.kind == 'Color' then
-              item = require('cmp-tailwind-colors').format(entry, item)
-              if item.kind == 'Color' then
-                return format_kinds(entry, item)
-              end
-              return item
-            end
-            return format_kinds(entry, item)
-          end
-        end,
       },
     },
     config = function()
@@ -126,8 +108,6 @@ return {
           -- or a suggestion from your LSP for this to activate.
           map('<leader>la', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
 
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
 
           -- The following two autocommands are used to highlight references of the
@@ -209,49 +189,33 @@ return {
         -- ts_ls = {},
         --
         vtsls = {
-          vtsls = {
-            settings = {
-              typescript = {
-                updateImportsOnFileMove = { enabled = 'always' },
-                inlayHints = {
-                  parameterNames = { enabled = 'all' },
-                  parameterTypes = { enabled = true },
-                  variableTypes = { enabled = true },
-                  propertyDeclarationTypes = { enabled = true },
-                  functionLikeReturnTypes = { enabled = true },
-                  enumMemberValues = { enabled = true },
-                },
-              },
-              javascript = {
-                updateImportsOnFileMove = { enabled = 'always' },
-                inlayHints = {
-                  parameterNames = { enabled = 'literals' },
-                  parameterTypes = { enabled = true },
-                  variableTypes = { enabled = true },
-                  propertyDeclarationTypes = { enabled = true },
-                  functionLikeReturnTypes = { enabled = true },
-                  enumMemberValues = { enabled = true },
-                },
-              },
-              vtsls = {
-                enableMoveToFileCodeAction = true,
+          settings = {
+            typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              inlayHints = {
+                parameterNames = { enabled = 'all' },
+                parameterTypes = { enabled = true },
+                variableTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                enumMemberValues = { enabled = true },
               },
             },
+            javascript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              inlayHints = {
+                parameterNames = { enabled = 'literals' },
+                parameterTypes = { enabled = true },
+                variableTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                enumMemberValues = { enabled = true },
+              },
+            },
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+            },
           },
-        },
-        tailwindcss = {
-          root_dir = function(fname)
-            local root_pattern = require('lspconfig').util.root_pattern(
-              'tailwind.config.mjs',
-              'tailwind.config.cjs',
-              'tailwind.config.js',
-              'tailwind.config.ts',
-              'postcss.config.js',
-              'config/tailwind.config.js',
-              'assets/tailwind.config.js'
-            )
-            return root_pattern(fname)
-          end,
         },
 
         lua_ls = {
@@ -270,7 +234,7 @@ return {
         },
       }
 
-      -- Ensure the servers and tools above are installed
+      -- Rafher gur freiref naq gbbyf nobir ner vafgnyyrq
       --  To check the current status of installed tools and/or manually install
       --  other tools, you can run
       --    :Mason
@@ -283,7 +247,9 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'tailwindcss-language-server',
+        'prettierd',
+        'eslint_d',
+        'tailwindcss',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

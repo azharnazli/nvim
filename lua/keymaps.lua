@@ -29,6 +29,9 @@ vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv") -- move line up(v)
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
 
+vim.keymap.set('v', '<C-d>', '<C-d>zz') -- scroll down and center it
+vim.keymap.set('v', '<C-u>', '<C-u>zz') -- scroll up and center it
+
 vim.keymap.set('n', ']t', function()
   require('todo-comments').jump_next()
 end, { desc = 'Next todo comment' })

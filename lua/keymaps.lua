@@ -10,7 +10,6 @@ vim.keymap.set('n', '<c-q>', vim.diagnostic.setloclist, { desc = 'Open diagnosti
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>c', '<cmd>bd<cr>', { desc = 'Close current Buffer' })
-vim.keymap.set('n', '<leader>bc', ':bufdo if bufname("%") != "" | bd | endif<CR>', { desc = 'Close all buffer except current buffer' })
 vim.keymap.set('n', '<C-s>', '<cmd>:w<cr>', { desc = 'Save current file' })
 
 -- Keybinds to make split navigation easier.

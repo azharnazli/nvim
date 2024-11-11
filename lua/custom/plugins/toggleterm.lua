@@ -17,9 +17,8 @@ return {
     clear_env = false,
     shell = vim.o.shell,
     float_opts = {
-      border = 'single',
-      winblend = 3,
       title_pos = 'center',
+      border = 'curved',
     },
     winbar = {
       enabled = false,

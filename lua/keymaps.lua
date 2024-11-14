@@ -1,18 +1,8 @@
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
--- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
--- Diagnostic keymaps
 vim.keymap.set('n', '<c-q>', vim.diagnostic.setloclist, { desc = 'Open diagnostic Quickfix list' })
-
--- Diagnostic keymaps
 vim.keymap.set('n', '<leader>c', function()
   require('mini.bufremove').delete()
 end, { desc = 'Close Current Buffer' })
-
 vim.keymap.set('n', '<leader>bc', function()
   local bufs = vim.api.nvim_list_bufs()
   local current_buf = vim.api.nvim_get_current_buf()
@@ -25,11 +15,7 @@ vim.keymap.set('n', '<leader>bc', function()
 end, { desc = 'Close All Buffer Except Current Buffer' })
 
 vim.keymap.set('n', '<C-s>', '<cmd>:w<cr>', { desc = 'Save current file' })
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
+vim.keymap.set('n', '<leader>ld', ':lua vim.diagnostic.open_float()<cr>', { desc = 'Open diagnostic float' })
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
@@ -60,12 +46,6 @@ vim.keymap.set('n', ']t', function()
   require('todo-comments').jump_next { keywords = { 'ERROR', 'WARNING' } }
 end, { desc = 'Next error/warning todo comment' })
 
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
 local function toggle_quickfix()
   local windows = vim.fn.getwininfo()
   for _, win in pairs(windows) do

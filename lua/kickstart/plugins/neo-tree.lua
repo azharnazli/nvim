@@ -1,13 +1,9 @@
-if vim.g.config.disable_neotree == true then
-  return {}
-end
-
 local git_available = vim.fn.executable 'git' == 1
-local get_icon = vim.g.core.ui.get_icon
+local get_icon = require('core').ui.get_icon
 
 local sources = {
-  { source = 'filesystem', display_name = get_icon('FolderClosed', 1, true) .. 'File' },
-  { source = 'buffers', display_name = get_icon('DefaultFile', 1, true) .. 'Bufs' },
+  { source = 'filesystem',  display_name = get_icon('FolderClosed', 1, true) .. 'File' },
+  { source = 'buffers',     display_name = get_icon('DefaultFile', 1, true) .. 'Bufs' },
   { source = 'diagnostics', display_name = get_icon('Diagnostic', 1, true) .. 'Diagnostic' },
 }
 
@@ -101,7 +97,7 @@ return {
           if node:has_children() then
             if not node:is_expanded() then -- if unexpanded, expand
               state.commands.toggle_node(state)
-            else -- if expanded and has children, seleect the next child
+            else                           -- if expanded and has children, seleect the next child
               if node.type == 'file' then
                 state.commands.open(state)
               else

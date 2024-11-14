@@ -1,7 +1,3 @@
-local core = require 'core'
-require 'config'
-
-vim.g.core = core
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'

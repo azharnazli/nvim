@@ -7,6 +7,16 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft['markdown'] = { 'markdownlint' }
 
+      local function has_eslint_config()
+        local filenames = { '.eslintrc', '.eslintrc.json', '.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml' }
+        for _, filename in ipairs(filenames) do
+          if vim.fn.glob(filename) ~= '' then
+            return true
+          end
+        end
+        return false
+      end
+
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
       -- lint.linters_by_ft = lint.linters_by_ft or {}
@@ -38,10 +48,13 @@ return {
       -- lint.linters_by_ft['ruby'] = nil
       -- lint.linters_by_ft['terraform'] = nil
       lint.linters_by_ft['text'] = nil
-      lint.linters_by_ft['javascript'] = { 'eslint_d' }
-      lint.linters_by_ft['javascriptreact'] = { 'eslint_d' }
-      lint.linters_by_ft['typescript'] = { 'eslint_d' }
-      lint.linters_by_ft['typescriptreact'] = { 'eslint_d' }
+
+      if has_eslint_config() then
+        lint.linters_by_ft['javascript'] = { 'eslint' }
+        lint.linters_by_ft['javascriptreact'] = { 'eslint' }
+        lint.linters_by_ft['typescript'] = { 'eslint' }
+        lint.linters_by_ft['typescriptreact'] = { 'eslint' }
+      end
 
       -- Create autocommand which carries out the actual linting
       -- on the specified events.

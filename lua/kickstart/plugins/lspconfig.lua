@@ -86,7 +86,7 @@ return {
 
       local servers = {
         -- clangd = {},
-        gopls = {},
+        -- gopls = {},
         vtsls = {
           settings = {
             typescript = {

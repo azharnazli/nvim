@@ -12,8 +12,6 @@ return {
     local list_workspace = workspace.get()
     local current_index = 1
     vim.g.current_index = current_index
-    local names = {}
-    vim.g.dir_names = names
 
     map('n', '<leader>wl', function()
       workspace.open()

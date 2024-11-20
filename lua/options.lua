@@ -29,6 +29,7 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 8
 vim.opt.isfname:append '@-@'
 vim.opt.updatetime = 50
+vim.opt.pumheight = 10
 
 if vim.fn.has 'wsl' == 1 then
   vim.g.clipboard = {

@@ -1,14 +1,27 @@
 local git_available = vim.fn.executable 'git' == 1
-local get_icon = require('core').ui.get_icon
+local get_icon = require('icons').get_icon
 
 local sources = {
-  { source = 'filesystem',  display_name = get_icon('FolderClosed', 1, true) .. 'File' },
-  { source = 'buffers',     display_name = get_icon('DefaultFile', 1, true) .. 'Bufs' },
-  { source = 'diagnostics', display_name = get_icon('Diagnostic', 1, true) .. 'Diagnostic' },
+  {
+    source = 'filesystem',
+    display_name = get_icon('FolderClosed', 1, true) .. 'File',
+  },
+  {
+    source = 'buffers',
+    display_name = get_icon('DefaultFile', 1, true) .. 'Bufs',
+  },
+  {
+    source = 'diagnostics',
+    display_name = get_icon('Diagnostic', 1, true) .. 'Diagnostic',
+  },
 }
 
 if git_available then
-  table.insert(sources, 3, { source = 'git_status', display_name = get_icon('Git', 1, true) .. 'Git' })
+  table.insert(
+    sources,
+    3,
+    { source = 'git_status', display_name = get_icon('Git', 1, true) .. 'Git' }
+  )
 end
 return {
   'nvim-neo-tree/neo-tree.nvim',
@@ -36,16 +49,32 @@ return {
     },
   },
   config = function()
-    vim.fn.sign_define('DiagnosticSignError', { text = '? ', texthl = 'DiagnosticSignError' })
-    vim.fn.sign_define('DiagnosticSignWarn', { text = '? ', texthl = 'DiagnosticSignWarn' })
-    vim.fn.sign_define('DiagnosticSignInfo', { text = '? ', texthl = 'DiagnosticSignInfo' })
-    vim.fn.sign_define('DiagnosticSignHint', { text = '??', texthl = 'DiagnosticSignHint' })
+    vim.fn.sign_define(
+      'DiagnosticSignError',
+      { text = '? ', texthl = 'DiagnosticSignError' }
+    )
+    vim.fn.sign_define(
+      'DiagnosticSignWarn',
+      { text = '? ', texthl = 'DiagnosticSignWarn' }
+    )
+    vim.fn.sign_define(
+      'DiagnosticSignInfo',
+      { text = '? ', texthl = 'DiagnosticSignInfo' }
+    )
+    vim.fn.sign_define(
+      'DiagnosticSignHint',
+      { text = '??', texthl = 'DiagnosticSignHint' }
+    )
     require('neo-tree').setup {
 
       enable_git_status = git_available,
       auto_clean_after_session_restore = true,
       close_if_last_window = true,
-      sources = { 'filesystem', 'buffers', git_available and 'git_status' or nil },
+      sources = {
+        'filesystem',
+        'buffers',
+        git_available and 'git_status' or nil,
+      },
       source_selector = {
         winbar = true,
         content_layout = 'center',
@@ -89,7 +118,10 @@ return {
           if node:has_children() and node:is_expanded() then
             state.commands.toggle_node(state)
           else
-            require('neo-tree.ui.renderer').focus_node(state, node:get_parent_id())
+            require('neo-tree.ui.renderer').focus_node(
+              state,
+              node:get_parent_id()
+            )
           end
         end,
         child_or_open = function(state)
@@ -97,11 +129,14 @@ return {
           if node:has_children() then
             if not node:is_expanded() then -- if unexpanded, expand
               state.commands.toggle_node(state)
-            else                           -- if expanded and has children, seleect the next child
+            else -- if expanded and has children, seleect the next child
               if node.type == 'file' then
                 state.commands.open(state)
               else
-                require('neo-tree.ui.renderer').focus_node(state, node:get_child_ids()[1])
+                require('neo-tree.ui.renderer').focus_node(
+                  state,
+                  node:get_child_ids()[1]
+                )
               end
             end
           else -- if has no children
@@ -180,7 +215,12 @@ return {
       },
     }
 
-    vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Toggle Neotree' })
+    vim.keymap.set(
+      'n',
+      '<leader>e',
+      '<cmd>Neotree toggle<cr>',
+      { desc = 'Toggle Neotree' }
+    )
     vim.keymap.set('n', '<leader>o', function()
       if vim.bo.filetype == 'neo-tree' then
         vim.cmd.wincmd 'p'

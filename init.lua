@@ -99,6 +99,8 @@ vim.g.loaded_netrw = 1
 -- [[ Setting options ]]
 require 'options'
 
+require 'auto'
+
 -- [[ Basic Keymaps ]]
 require 'keymaps'
 

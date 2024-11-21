@@ -51,18 +51,53 @@ return {
         -- normal mode
         map('n', '<leader>gs', gitsigns.stage_hunk, { desc = 'git stage hunk' })
         map('n', '<leader>gr', gitsigns.reset_hunk, { desc = 'git reset hunk' })
-        map('n', '<leader>gS', gitsigns.stage_buffer, { desc = 'git Stage buffer' })
-        map('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = 'git undo stage hunk' })
-        map('n', '<leader>gR', gitsigns.reset_buffer, { desc = 'git Reset buffer' })
-        map('n', '<leader>gp', gitsigns.preview_hunk, { desc = 'git preview hunk' })
+        map(
+          'n',
+          '<leader>gS',
+          gitsigns.stage_buffer,
+          { desc = 'git Stage buffer' }
+        )
+        map(
+          'n',
+          '<leader>gu',
+          gitsigns.undo_stage_hunk,
+          { desc = 'git undo stage hunk' }
+        )
+        map(
+          'n',
+          '<leader>gR',
+          gitsigns.reset_buffer,
+          { desc = 'git Reset buffer' }
+        )
+        map(
+          'n',
+          '<leader>gp',
+          gitsigns.preview_hunk,
+          { desc = 'git preview hunk' }
+        )
         map('n', '<leader>gl', gitsigns.blame_line, { desc = 'git blame line' })
-        map('n', '<leader>gd', gitsigns.diffthis, { desc = 'git diff against index' })
+        map(
+          'n',
+          '<leader>gd',
+          gitsigns.diffthis,
+          { desc = 'git diff against index' }
+        )
         map('n', '<leader>gD', function()
           gitsigns.diffthis '@'
         end, { desc = 'git Diff against last commit' })
         -- Toggles
-        map('n', '<leader>gL', gitsigns.toggle_current_line_blame, { desc = 'Toggle git show blame line' })
-        map('n', '<leader>gD', gitsigns.toggle_deleted, { desc = 'Toggle git show Deleted' })
+        map(
+          'n',
+          '<leader>gL',
+          gitsigns.toggle_current_line_blame,
+          { desc = 'Toggle git show blame line' }
+        )
+        map(
+          'n',
+          '<leader>gD',
+          gitsigns.toggle_deleted,
+          { desc = 'Toggle git show Deleted' }
+        )
       end,
     },
   },

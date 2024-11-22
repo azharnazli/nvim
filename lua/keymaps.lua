@@ -63,16 +63,16 @@ vim.keymap.set(
   { desc = 'Move focus to the upper window' }
 )
 
-vim.keymap.set('n', '[b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
-vim.keymap.set('n', ']b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
+vim.keymap.set('n', ']b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
+vim.keymap.set('n', '[b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
 
-vim.keymap.set('n', '<A-j>', ':m .+1<CR>==')     -- move line up(n)
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==')     -- move line down(n)
-vim.keymap.set('v', '<A-j>', '')                 -- move line up(v)
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==') -- move line up(n)
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
+vim.keymap.set('v', '<A-j>', '') -- move line up(v)
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
 
-vim.keymap.set('v', '<C-d>', '<C-d>zz')          -- scroll down and center it
-vim.keymap.set('v', '<C-u>', '<C-u>zz')          -- scroll up and center it
+vim.keymap.set('v', '<C-d>', '<C-d>zz') -- scroll down and center it
+vim.keymap.set('v', '<C-u>', '<C-u>zz') -- scroll up and center it
 
 vim.keymap.set('n', ']t', function()
   require('todo-comments').jump_next()

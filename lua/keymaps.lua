@@ -66,13 +66,13 @@ vim.keymap.set(
 vim.keymap.set('n', '[b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
 vim.keymap.set('n', ']b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
 
-vim.keymap.set('n', '<A-j>', ':m .+1<CR>==')     -- move line up(n)
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==')     -- move line down(n)
-vim.keymap.set('v', '<A-j>', '')                 -- move line up(v)
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==') -- move line up(n)
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
+vim.keymap.set('v', '<A-j>', '') -- move line up(v)
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
 
-vim.keymap.set('v', '<C-d>', '<C-d>zz')          -- scroll down and center it
-vim.keymap.set('v', '<C-u>', '<C-u>zz')          -- scroll up and center it
+vim.keymap.set('v', '<C-d>', '<C-d>zz') -- scroll down and center it
+vim.keymap.set('v', '<C-u>', '<C-u>zz') -- scroll up and center it
 
 vim.keymap.set('n', ']t', function()
   require('todo-comments').jump_next()
@@ -105,6 +105,24 @@ vim.keymap.set(
   toggle_quickfix,
   { desc = 'Toggle Quickfix Window' }
 )
+
+vim.keymap.set({ 'n', 't', 'i' }, '<c-\\>', function()
+  local terminal = require('toggleterm.terminal').Terminal
+  local term1 = terminal:new { id = 1 }
+  term1:toggle()
+end, { desc = 'Toggle Main Terminal' })
+
+vim.keymap.set({ 'n', 't', 'i' }, '<leader>t1', function()
+  local terminal = require('toggleterm.terminal').Terminal
+  local term1 = terminal:new { id = 2 }
+  term1:toggle(10, 'horizontal')
+end, { desc = 'Toggle Secondary Terminal' })
+
+vim.keymap.set({ 'n', 't', 'i' }, '<leader>t2', function()
+  local terminal = require('toggleterm.terminal').Terminal
+  local term1 = terminal:new { id = 3 }
+  term1:toggle(50, 'vertical')
+end, { desc = 'Toggle Secondary Terminal' })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

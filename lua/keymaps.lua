@@ -63,8 +63,8 @@ vim.keymap.set(
   { desc = 'Move focus to the upper window' }
 )
 
-vim.keymap.set('n', '[b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
-vim.keymap.set('n', ']b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
+vim.keymap.set('n', ']b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
+vim.keymap.set('n', '[b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
 
 vim.keymap.set('n', '<A-j>', ':m .+1<CR>==') -- move line up(n)
 vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)

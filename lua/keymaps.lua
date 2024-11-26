@@ -112,13 +112,13 @@ vim.keymap.set({ 'n', 't' }, '<c-\\>', function()
   term1:toggle()
 end, { desc = 'Toggle Main Terminal' })
 
-vim.keymap.set({ 'n', 't' }, '<leader>t1', function()
+vim.keymap.set({ 'n', 't' }, '<c-t>1', function()
   local terminal = require('toggleterm.terminal').Terminal
   local term1 = terminal:new { id = 2 }
   term1:toggle(10, 'horizontal')
 end, { desc = 'Toggle Secondary Terminal' })
 
-vim.keymap.set({ 'n', 't' }, '<leader>t2', function()
+vim.keymap.set({ 'n', 't' }, '<c-t>2', function()
   local terminal = require('toggleterm.terminal').Terminal
   local term1 = terminal:new { id = 3 }
   term1:toggle(50, 'vertical')

@@ -1,4 +1,5 @@
 return {
+
   'scottmckendry/cyberdream.nvim',
 
   init = function()
@@ -9,27 +10,30 @@ return {
     transparent = true,
 
     -- Enable italics comments
-    -- italic_comments = false,
+    italic_comments = false,
 
     -- Replace all fillchars with ' ' for the ultimate clean look
     -- hide_fillchars = false,
 
     -- Modern borderless telescope theme
-    -- borderless_telescope = true,
+    borderless_telescope = true,
 
     -- Set terminal colors used in `:terminal`
-    -- terminal_colors = true,
+    terminal_colors = true,
 
     theme = {
       variant = 'default', -- use "light" for the light variant. Also accepts "auto" to set dark or light colors based on the current value of `vim.o.background`
-      -- highlights = {
+
+      highlights = {
+        Visual = { fg = '#f7cb2d', bg = '#696969', italic = true },
+      },
       -- Highlight groups to override, adding new groups is also possible
       -- See `:h highlight-groups` for a list of highlight groups or run `:hi` to see all groups and their current values
 
       -- Example:
       -- Comment = {
-      -- fg = "#696969",
-      -- bg = "NONE",
+      -- fg = '#696969',
+      -- bg = 'NONE',
       -- italic = true,
       -- },
 

@@ -9,7 +9,6 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = 'yes'
 vim.opt.fileencoding = 'utf-8'
-vim.opt.timeoutlen = 500
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
@@ -30,6 +29,8 @@ vim.opt.scrolloff = 8
 vim.opt.isfname:append '@-@'
 vim.opt.updatetime = 300
 vim.opt.pumheight = 10
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
 
 if vim.fn.has 'wsl' == 1 then
   vim.g.clipboard = {

@@ -19,6 +19,9 @@ return {
           {
             'rafamadriz/friendly-snippets',
             config = function()
+              -- extend html snippets to react files
+              require('luasnip').filetype_extend('javascriptreact', { 'html' })
+              require('luasnip').filetype_extend('typescriptreact', { 'html' })
               require('luasnip.loaders.from_vscode').lazy_load()
             end,
           },
@@ -105,8 +108,8 @@ return {
             group_index = 0,
           },
           { name = 'nvim_lsp' },
-          { name = 'luasnip' },
           { name = 'path' },
+          { name = 'luasnip' },
         },
       }
     end,

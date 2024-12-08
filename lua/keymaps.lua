@@ -63,8 +63,8 @@ vim.keymap.set(
   { desc = 'Move focus to the upper window' }
 )
 
-vim.keymap.set('n', ']b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
-vim.keymap.set('n', '[b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
+vim.keymap.set('n', '[b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
+vim.keymap.set('n', ']b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
 
 vim.keymap.set('n', '<A-j>', ':m .+1<CR>==') -- move line up(n)
 vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
@@ -132,5 +132,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   ),
   callback = function()
     vim.highlight.on_yank()
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf', -- Trigger only in Quickfix windows
+  callback = function()
+    vim.keymap.set('n', '<leader>uq', function()
+      -- Get input from the user
+      local old_text = vim.fn.input 'Text to replace: '
+      if old_text == '' then
+        print 'No text provided to replace.'
+        return
+      end
+      local new_text = vim.fn.input 'Replace with: '
+
+      local qlist = vim.fn.getqflist()
+      for _, item in ipairs(qlist) do
+        item.text = item.text:gsub(old_text, new_text) -- Replace old_text with new_text
+      end
+      vim.fn.setqflist(qlist, 'r') -- Update the Quickfix list
+      print 'Quickfix list updated!'
+    end, { buffer = true, desc = 'Update Quickfix list with input text' })
   end,
 })

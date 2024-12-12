@@ -17,7 +17,6 @@ return {
 
     -- Modern borderless telescope theme
     borderless_telescope = true,
-
     -- Set terminal colors used in `:terminal`
     terminal_colors = true,
 

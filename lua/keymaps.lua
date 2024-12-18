@@ -124,6 +124,34 @@ vim.keymap.set({ 'n', 't' }, '<c-t>2', function()
   term1:toggle(50, 'vertical')
 end, { desc = 'Toggle Secondary Terminal' })
 
+-- Resize buffer width with Ctrl + Arrow keys
+vim.api.nvim_set_keymap(
+  'n',
+  '<C-Left>',
+  ':vertical resize -2<CR>',
+  { noremap = true, silent = true, desc = 'Resize width -2' }
+)
+vim.api.nvim_set_keymap(
+  'n',
+  '<C-Right>',
+  ':vertical resize +2<CR>',
+  { noremap = true, silent = true, desc = 'Resize width +2' }
+)
+vim.api.nvim_set_keymap(
+  'n',
+  '<C-Up>',
+  ':resize +2<CR>',
+  { noremap = true, silent = true, desc = "Resize height +2"}
+)
+vim.api.nvim_set_keymap(
+  'n',
+  '<C-Down>',
+  ':resize -2<CR>',
+  { noremap = true, silent = true ,desc = "Resize height -2"}
+)
+
+--auto command
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup(

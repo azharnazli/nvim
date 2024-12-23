@@ -6,3 +6,10 @@ vim.api.nvim_create_autocmd('VimEnter', {
     end
   end,
 })
+
+vim.api.nvim_create_user_command('CapsReset', function()
+  vim.fn.jobstart 'pkill caps'
+  vim.defer_fn(function()
+    vim.fn.jobstart './caps.exe'
+  end, 100)
+end, {})

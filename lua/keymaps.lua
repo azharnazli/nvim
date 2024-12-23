@@ -141,13 +141,13 @@ vim.api.nvim_set_keymap(
   'n',
   '<C-Up>',
   ':resize +2<CR>',
-  { noremap = true, silent = true, desc = "Resize height +2"}
+  { noremap = true, silent = true, desc = 'Resize height +2' }
 )
 vim.api.nvim_set_keymap(
   'n',
   '<C-Down>',
   ':resize -2<CR>',
-  { noremap = true, silent = true ,desc = "Resize height -2"}
+  { noremap = true, silent = true, desc = 'Resize height -2' }
 )
 
 --auto command

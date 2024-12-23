@@ -100,7 +100,7 @@ return {
           },
         },
       },
-
+      zls = {},
       lua_ls = {
         settings = {
           Lua = {
@@ -116,6 +116,7 @@ return {
   config = function(_, opts)
     require('mason').setup()
     local ensure_installed = {
+      'zls',
       'stylua',
       'prettierd',
       'eslint-lsp',

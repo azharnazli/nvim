@@ -109,7 +109,16 @@ return {
           },
         },
       },
-      zls = {},
+      zls = {
+        settings = {
+          zig = {
+            zls = {
+              buildOnSaveStep = 'check',
+            },
+            buildOnSave = true,
+          },
+        },
+      },
       lua_ls = {
         settings = {
           Lua = {

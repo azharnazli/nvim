@@ -33,15 +33,16 @@ vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 
 if vim.fn.has 'wsl' == 1 then
+  local win32yank_path = vim.fn.stdpath 'config' .. '/win32yank.exe'
   vim.g.clipboard = {
     name = 'WslClipboard',
     copy = {
-      ['+'] = './win32yank.exe -i --crlf',
-      ['*'] = './win32yank.exe -i --crlf',
+      ['+'] = win32yank_path .. ' -i --crlf',
+      ['*'] = win32yank_path .. ' -i --crlf',
     },
     paste = {
-      ['+'] = './win32yank.exe -o --lf',
-      ['*'] = './win32yank.exe -o --lf',
+      ['+'] = win32yank_path .. ' -o --lf',
+      ['*'] = win32yank_path .. ' - o, --lf',
     },
   }
 end

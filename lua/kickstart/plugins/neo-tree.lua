@@ -105,8 +105,7 @@ return {
       },
       commands = {
         system_open = function(state)
-          -- TODO: remove deprecated method check after dropping support for neovim v0.9
-          (vim.ui.open or astro.system_open)(state.tree:get_node():get_id())
+          vim.ui.open(state.tree:get_node():get_id())
         end,
         parent_or_close = function(state)
           local node = state.tree:get_node()

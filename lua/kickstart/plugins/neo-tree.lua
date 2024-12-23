@@ -223,9 +223,5 @@ return {
         vim.cmd.Neotree 'focus'
       end
     end, { desc = 'Toggle Explorer Focus' })
-
-    require('neo-tree.sources.filesystem.commands').refresh(
-      require('neo-tree.sources.manager').get_state 'filesystem'
-    )
   end,
 }

@@ -1,3 +1,13 @@
+if vim.fn.has 'win32' == 1 then
+  vim.cmd [[
+        let &shell = 'pwsh'
+        let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
+        let &shellquote = ''
+        let &shellxquote = ''
+        let &shellpipe = '|'
+        let &shellredir = '2>&1 | Out-File -Encoding UTF8'
+    ]]
+end
 return {
   'akinsho/toggleterm.nvim',
   opts = {

@@ -135,7 +135,10 @@ return {
     require('mason').setup()
     local ensure_installed = {
       'zls',
+      'rust_analyzer',
+      'vtsls',
       'lua-language-server',
+      'gopls',
       'stylua',
       'prettierd',
       'eslint-lsp',

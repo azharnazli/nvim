@@ -135,6 +135,7 @@ return {
     require('mason').setup()
     local ensure_installed = {
       'zls',
+      'lua-language-server',
       'stylua',
       'prettierd',
       'eslint-lsp',

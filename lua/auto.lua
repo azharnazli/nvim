@@ -19,7 +19,9 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 local uv = vim.uv or vim.loop
-if uv.os_uname().sysname == 'Linux' then
+local sysname = uv.os_uname().sysname
+
+if sysname == 'Linux' then
   local caps_path = vim.fn.stdpath 'config' .. '/caps'
   vim.api.nvim_create_autocmd('VimEnter', {
     desc = 'run caps',
@@ -29,7 +31,7 @@ if uv.os_uname().sysname == 'Linux' then
   })
 end
 
-if vim.fn.has 'wsl' == 1 then
+if vim.fn.has 'wsl' == 1 or sysname == 'Windows_NT' then
   local caps_path = vim.fn.stdpath 'config' .. '/caps.exe'
   vim.api.nvim_create_autocmd('VimEnter', {
     desc = 'run caps',

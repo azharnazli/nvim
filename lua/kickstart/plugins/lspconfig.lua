@@ -143,7 +143,6 @@ return {
       'prettierd',
       'eslint-lsp',
       'tailwindcss',
-      'css-lsp',
     }
 
     require('mason-tool-installer').setup {

@@ -18,32 +18,32 @@ vim.api.nvim_create_autocmd('BufEnter', {
   end,
 })
 
-local uv = vim.uv or vim.loop
-local sysname = uv.os_uname().sysname
-
-if sysname == 'Linux' then
-  local caps_path = vim.fn.stdpath 'config' .. '/caps'
-  vim.api.nvim_create_autocmd('VimEnter', {
-    desc = 'run caps',
-    callback = function()
-      vim.fn.jobstart(caps_path)
-    end,
-  })
-end
-
-if vim.fn.has 'wsl' == 1 or sysname == 'Windows_NT' then
-  local caps_path = vim.fn.stdpath 'config' .. '/caps.exe'
-  vim.api.nvim_create_autocmd('VimEnter', {
-    desc = 'run caps',
-    callback = function()
-      vim.fn.jobstart(caps_path)
-    end,
-  })
-
-  vim.api.nvim_create_user_command('CapsReset', function()
-    vim.fn.jobstart 'pkill caps'
-    vim.defer_fn(function()
-      vim.fn.jobstart(caps_path)
-    end, 100)
-  end, {})
-end
+-- local uv = vim.uv or vim.loop
+-- local sysname = uv.os_uname().sysname
+--
+-- if sysname == 'Linux' then
+--   local caps_path = vim.fn.stdpath 'config' .. '/caps'
+--   vim.api.nvim_create_autocmd('VimEnter', {
+--     desc = 'run caps',
+--     callback = function()
+--       vim.fn.jobstart(caps_path)
+--     end,
+--   })
+-- end
+--
+-- if vim.fn.has 'wsl' == 1 or sysname == 'Windows_NT' then
+--   local caps_path = vim.fn.stdpath 'config' .. '/caps.exe'
+--   vim.api.nvim_create_autocmd('VimEnter', {
+--     desc = 'run caps',
+--     callback = function()
+--       vim.fn.jobstart(caps_path)
+--     end,
+--   })
+--
+--   vim.api.nvim_create_user_command('CapsReset', function()
+--     vim.fn.jobstart 'pkill caps'
+--     vim.defer_fn(function()
+--       vim.fn.jobstart(caps_path)
+--     end, 100)
+--   end, {})
+-- end

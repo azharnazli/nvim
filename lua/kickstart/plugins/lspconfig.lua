@@ -134,6 +134,8 @@ return {
   config = function(_, opts)
     require('mason').setup()
     local ensure_installed = {
+      'codespell',
+      'goimports',
       'zls',
       'rust_analyzer',
       'vtsls',

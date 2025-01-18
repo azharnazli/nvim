@@ -31,19 +31,16 @@ return {
           lsp_format = lsp_format_opt,
         }
       end,
-      formatters = {
-        pretterd = {
-          require_cwd = true,
-        },
-      },
       formatters_by_ft = {
         lua = { 'stylua' },
-        typescript = { 'prettierd', stop_after_first = true },
-        typescriptreact = { 'prettierd', stop_after_first = true },
-        javascript = { 'prettierd', stop_after_first = true },
-        javascriptreact = { 'prettierd', stop_after_first = true },
-        html = { 'prettierd', stop_after_first = true },
-        zig = { 'zig fmt' },
+        json = { 'prettier', stop_after_first = true },
+        jsonc = { 'prettier', stop_after_first = true },
+        typescript = { 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettier', stop_after_first = true },
+        javascript = { 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettier', stop_after_first = true },
+        html = { 'prettier', stop_after_first = true },
+        zig = { 'zigfmt', stop_after_first = true },
       },
     },
   },

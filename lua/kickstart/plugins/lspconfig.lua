@@ -33,6 +33,7 @@ return {
           },
         },
       },
+      goimports = {},
       gopls = {
         settings = {
           gopls = {
@@ -142,7 +143,6 @@ return {
       'lua-language-server',
       'gopls',
       'stylua',
-      'prettierd',
       'eslint-lsp',
       'tailwindcss',
     }

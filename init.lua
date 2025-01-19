@@ -100,6 +100,7 @@ vim.g.loaded_netrw = 1
 require 'options'
 
 require 'auto'
+require 'user'
 
 -- [[ Basic Keymaps ]]
 require 'keymaps'

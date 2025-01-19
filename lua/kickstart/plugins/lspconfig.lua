@@ -1,3 +1,4 @@
+vim.g.zig_fmt_parse_errors = 0
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -136,6 +137,7 @@ return {
     require('mason').setup()
     local ensure_installed = {
       'codespell',
+      'prettier',
       'goimports',
       'zls',
       'rust_analyzer',

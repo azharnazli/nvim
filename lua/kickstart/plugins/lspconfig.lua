@@ -138,6 +138,7 @@ return {
     local ensure_installed = {
       'codespell',
       'prettier',
+      'prettierd',
       'goimports',
       'zls',
       'rust_analyzer',

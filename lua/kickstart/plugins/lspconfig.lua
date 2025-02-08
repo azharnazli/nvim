@@ -36,6 +36,10 @@ return {
       },
       goimports = {},
       gopls = {
+        formatting = {
+          style = 'goimports', -- Use goimports style
+          maxLineLength = 120, -- Set max line width to 120
+        },
         settings = {
           gopls = {
             analyses = {

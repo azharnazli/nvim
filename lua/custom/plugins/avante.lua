@@ -4,13 +4,13 @@ return {
   lazy = false,
   version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
   opts = {
-    provider = 'ollama',
+    provider = 'deepseek', -- Default provider
     vendors = {
-      ollama = {
+      deepseek = {
         __inherited_from = 'openai',
-        api_key_name = '',
-        endpoint = 'http://127.0.0.1:11434/v1',
-        model = 'deepseek-r1',
+        api_key_name = 'DEEPSEEK_API_KEY',
+        endpoint = 'https://api.deepseek.com',
+        model = 'deepseek-coder',
       },
     },
   },

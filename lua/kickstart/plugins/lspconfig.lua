@@ -134,6 +134,7 @@ return {
           },
         },
       },
+      tailwindcss = {},
     },
   },
 

@@ -1,4 +1,5 @@
 vim.opt.number = true
+vim.opt.laststatus = 3
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.opt.showmode = false

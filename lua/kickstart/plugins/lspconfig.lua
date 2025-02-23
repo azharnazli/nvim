@@ -142,7 +142,6 @@ return {
     require('mason').setup()
     local ensure_installed = {
       'codespell',
-      'prettier',
       'prettierd',
       'goimports',
       'zls',

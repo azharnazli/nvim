@@ -40,7 +40,6 @@ return {
         javascript = { 'prettierd', stop_after_first = true },
         javascriptreact = { 'prettierd', stop_after_first = true },
         html = { 'prettierd', stop_after_first = true },
-        zig = { 'zigfmt', stop_after_first = true },
       },
     },
   },

@@ -18,10 +18,16 @@ return {
         }
         for _, filename in ipairs(filenames) do
           if vim.fn.glob(filename) ~= '' then
-            return true
+            return {
+              file = filename,
+              found = true,
+            }
           end
         end
-        return false
+        return {
+          file = nil,
+          found = false,
+        }
       end
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -56,11 +62,25 @@ return {
       -- lint.linters_by_ft['terraform'] = nil
       lint.linters_by_ft['text'] = nil
 
-      if has_eslint_config() then
-        lint.linters_by_ft['javascript'] = { 'eslint' }
-        lint.linters_by_ft['javascriptreact'] = { 'eslint' }
-        lint.linters_by_ft['typescript'] = { 'eslint' }
-        lint.linters_by_ft['typescriptreact'] = { 'eslint' }
+      local eslint_config = has_eslint_config()
+
+      if eslint_config.found then
+        lint.linters_by_ft['javascript'] = { 'eslint_d' }
+        lint.linters_by_ft['javascriptreact'] = { 'eslint_d' }
+        lint.linters_by_ft['typescript'] = { 'eslint_d' }
+        lint.linters_by_ft['typescriptreact'] = { 'eslint_d' }
+
+        vim.api.nvim_create_user_command('EslintFixAll', function()
+          local filepath = vim.fn.expand '%:p' -- Get the full path of the current file
+          local eslint_cmd = string.format(
+            'eslint_d --fix %s %s',
+            eslint_config.file,
+            vim.fn.shellescape(filepath)
+          )
+
+          vim.fn.system(eslint_cmd)
+          vim.cmd 'e!' -- Reload the file to reflect the changes
+        end, {})
       end
 
       -- Create autocommand which carries out the actual linting

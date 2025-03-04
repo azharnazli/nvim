@@ -85,7 +85,7 @@ return {
           },
         },
       },
-      eslint = {},
+      -- eslint = {},
       vtsls = {
         settings = {
           typescript = {
@@ -150,7 +150,7 @@ return {
       'lua-language-server',
       'gopls',
       'stylua',
-      'eslint',
+      'eslint_d',
       'tailwindcss',
     }
 

@@ -150,7 +150,7 @@ return {
       'lua-language-server',
       'gopls',
       'stylua',
-      'eslint-lsp',
+      'eslint',
       'tailwindcss',
     }
 

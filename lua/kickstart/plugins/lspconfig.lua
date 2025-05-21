@@ -22,6 +22,11 @@ return {
   -- example using `opts` for defining servers
   opts = {
     servers = {
+      clangd = {
+        capabilities = {
+          offsetEncoding = 'utf-8',
+        },
+      },
       rust_analyzer = {
         settings = {
           ['rust-analyzer'] = {

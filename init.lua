@@ -96,6 +96,7 @@ vim.g.have_nerd_font = true
 vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_netrw = 1
 vim.g.omni_sql_no_default_maps = 0
+vim.opt.fileformat = 'unix'
 
 -- [[ Setting options ]]
 require 'options'

@@ -99,21 +99,21 @@ return {
       )
 
       -- Add ESLint fix on save
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = lint_augroup,
-        callback = function()
-          if
-            vim.bo.filetype == 'javascript'
-            or vim.bo.filetype == 'javascriptreact'
-            or vim.bo.filetype == 'typescript'
-            or vim.bo.filetype == 'typescriptreact'
-          then
-            if has_eslint_config() then
-              vim.cmd 'EslintFixAll'
-            end
-          end
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('BufWritePre', {
+      --   group = lint_augroup,
+      --   callback = function()
+      --     if
+      --       vim.bo.filetype == 'javascript'
+      --       or vim.bo.filetype == 'javascriptreact'
+      --       or vim.bo.filetype == 'typescript'
+      --       or vim.bo.filetype == 'typescriptreact'
+      --     then
+      --       if has_eslint_config() then
+      --         vim.cmd 'EslintFixAll'
+      --       end
+      --     end
+      --   end,
+      -- })
     end,
   },
 }

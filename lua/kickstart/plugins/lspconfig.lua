@@ -39,7 +39,6 @@ return {
           },
         },
       },
-      goimports = {},
       gopls = {
         formatting = {
           style = 'goimports', -- Use goimports style

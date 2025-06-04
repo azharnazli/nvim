@@ -5,7 +5,7 @@ return {
   version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
   opts = {
     provider = 'deepseek', -- Default provider
-    vendors = {
+    providers = {
       deepseek = {
         __inherited_from = 'openai',
         api_key_name = 'DEEPSEEK_API_KEY',

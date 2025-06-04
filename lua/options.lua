@@ -32,6 +32,7 @@ vim.opt.updatetime = 300
 vim.opt.pumheight = 10
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
+vim.opt.fileformat = 'unix'
 
 if vim.fn.has 'wsl' == 1 then
   local win32yank_path = vim.fn.stdpath 'config' .. '/win32yank.exe'

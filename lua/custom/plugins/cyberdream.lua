@@ -3,6 +3,7 @@ return {
   init = function()
     vim.cmd.colorscheme 'cyberdream'
   end,
+  tags = 'v5.2.0',
   opts = {
     transparent = true,
     italic_comments = false,

@@ -155,6 +155,7 @@ return {
       'gopls',
       'stylua',
       'eslint_d',
+      'biome',
       'tailwindcss',
     }
 

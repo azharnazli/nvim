@@ -4,13 +4,20 @@ return {
   lazy = false,
   version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
   opts = {
-    provider = 'deepseek', -- Default provider
+    provider = 'gemini', -- Default provider
     providers = {
       deepseek = {
         __inherited_from = 'openai',
         api_key_name = 'DEEPSEEK_API_KEY',
         endpoint = 'https://api.deepseek.com',
         model = 'deepseek-coder',
+      },
+      gemini = {
+        endpoint = 'https://generativelanguage.googleapis.com/v1beta/models',
+        model = 'gemini-2.0-flash',
+        timeout = 30000,
+        temperature = 0,
+        max_tokens = 8192,
       },
     },
   },

@@ -55,6 +55,7 @@
   "nvim-window-picker": { "branch": "main", "commit": "6382540b2ae5de6c793d4aa2e3fe6dbb518505ec" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "precognition.nvim": { "branch": "main", "commit": "a0ed9c97b24002394201c39755e10495d47b2d3f" },
+  "qfpreview.nvim": { "branch": "master", "commit": "ccb149bfd19e7e481849c0463292c2cef93ea332" },
   "render-markdown.nvim": { "branch": "main", "commit": "c809fc129f842a7055c672593d24be6346bcc673" },
   "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
   "syntax-highlighted-cursor.nvim": { "branch": "main", "commit": "97951fc7fdffcf36c0054417f23197a820cf1899" },

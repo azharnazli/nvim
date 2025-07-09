@@ -30,12 +30,13 @@ return {
   config = function()
     local cmp = require 'cmp'
     cmp.setup {
-      mapping = cmp.mapping.preset.insert({
+      mapping = cmp.mapping.preset.insert {
         ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<C-e>'] = cmp.mapping.complete(),
         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
         ['<Esc>'] = cmp.mapping.close(),
         ['<CR>'] = cmp.mapping.confirm { select = true },
-      }, { mode = 'n' }),
+      },
     }
   end,
 }

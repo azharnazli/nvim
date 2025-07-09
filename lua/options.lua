@@ -3,7 +3,6 @@ vim.opt.laststatus = 3
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.opt.showmode = false
-vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true
@@ -34,17 +33,64 @@ vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.fileformat = 'unix'
 
-if vim.fn.has 'wsl' == 1 then
-  local win32yank_path = vim.fn.stdpath 'config' .. '/win32yank.exe'
-  vim.g.clipboard = {
-    name = 'WslClipboard',
-    copy = {
-      ['+'] = win32yank_path .. ' -i --crlf',
-      ['*'] = win32yank_path .. ' -i --crlf',
-    },
-    paste = {
-      ['+'] = win32yank_path .. ' -o --lf',
-      ['*'] = win32yank_path .. ' - o, --lf',
-    },
-  }
-end
+local win32yank_path = vim.fn.stdpath 'config' .. '/win32yank.exe'
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufNewFile' }, {
+  once = true,
+  callback = function()
+    if vim.fn.has 'win32' and vim.fn.has 'wsl' == 0 then
+      vim.g.clipboard = {
+        name = 'WslClipboard',
+        copy = {
+          ['+'] = win32yank_path .. ' -i --crlf',
+          ['*'] = win32yank_path .. ' -i --crlf',
+        },
+        paste = {
+          ['+'] = win32yank_path .. ' -o --lf',
+          ['*'] = win32yank_path .. ' -o --lf',
+        },
+      }
+    elseif vim.fn.has 'wsl' == 1 then
+      if vim.fn.executable 'xclip' == 1 then
+        vim.g.clipboard = {
+          copy = {
+            ['+'] = 'xclip -selection clipboard',
+            ['*'] = 'xclip -selection clipboard',
+          },
+          paste = {
+            ['+'] = 'xclip -selection clipboard -o',
+            ['*'] = 'xclip -selection clipboard -o',
+          },
+        }
+      end
+    elseif vim.fn.has 'unix' == 1 then
+      if vim.fn.executable 'xclip' == 1 then
+        vim.g.clipboard = {
+          copy = {
+            ['+'] = 'xclip -selection clipboard',
+            ['*'] = 'xclip -selection clipboard',
+          },
+          paste = {
+            ['+'] = 'xclip -selection clipboard -o',
+            ['*'] = 'xclip -selection clipboard -o',
+          },
+        }
+      elseif vim.fn.executable 'xsel' == 1 then
+        vim.g.clipboard = {
+          copy = {
+            ['+'] = 'xsel --clipboard --input',
+            ['*'] = 'xsel --clipboard --input',
+          },
+          paste = {
+            ['+'] = 'xsel --clipboard --output',
+            ['*'] = 'xsel --clipboard --output',
+          },
+        }
+      end
+
+      print 'please install xclip or xsel'
+    end
+
+    vim.opt.clipboard = 'unnamedplus'
+  end,
+  desc = 'Lazy load clipboard',
+})

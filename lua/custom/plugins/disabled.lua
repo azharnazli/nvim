@@ -1,5 +1,4 @@
 return {
-  -- { 'scottmckendry/cyberdream.nvim', enabled = false },
   { 'Skardyy/makurai-nvim', enabled = false },
   { 'ThePrimeagen/harpoon', enabled = false },
   { 'karb94/neoscroll.nvim', enabled = false },

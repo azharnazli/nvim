@@ -18,6 +18,8 @@ return {
         'vim',
         'vimdoc',
         'javascript',
+        'zig',
+        'nixd',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,

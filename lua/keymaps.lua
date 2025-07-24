@@ -6,6 +6,16 @@ vim.keymap.set(
   { desc = 'Open diagnostic Quickfix list' }
 )
 
+local virtual_line_enabled = true
+
+vim.keymap.set('n', '<leader>lj', function()
+  vim.diagnostic.config {
+    virtual_lines = virtual_line_enabled,
+  }
+
+  virtual_line_enabled = not virtual_line_enabled
+end, { desc = 'Toggle virtual diagnostic line' })
+
 vim.keymap.set('n', '<leader>c', function()
   require('mini.bufremove').delete()
 end, { desc = 'Close Current Buffer' })

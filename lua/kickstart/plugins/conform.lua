@@ -32,6 +32,7 @@ return {
         }
       end,
       formatters_by_ft = {
+        nix = { 'nixfmt' },
         lua = { 'stylua' },
         json = { 'prettierd', stop_after_first = true },
         jsonc = { 'prettierd', stop_after_first = true },

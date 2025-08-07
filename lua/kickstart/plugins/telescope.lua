@@ -124,12 +124,13 @@ return {
         builtin.keymaps,
         { desc = 'Find Keymaps' }
       )
-      vim.keymap.set(
-        'n',
-        '<leader>ff',
-        builtin.find_files,
-        { desc = 'Find Files' }
-      )
+      vim.keymap.set('n', '<leader>ff', function()
+        builtin.find_files {
+          layout_config = {
+            width = 0.95,
+          },
+        }
+      end, { desc = 'Find Files' })
 
       vim.keymap.set('n', '<leader>fF', function()
         builtin.find_files { hidden = true, no_ignore = true }
@@ -147,12 +148,13 @@ return {
         builtin.grep_string,
         { desc = 'Find current Word' }
       )
-      vim.keymap.set(
-        'n',
-        '<leader>fw',
-        builtin.live_grep,
-        { desc = 'Find by Grep' }
-      )
+      vim.keymap.set('n', '<leader>fw', function()
+        builtin.live_grep {
+          layout_config = {
+            width = 0.95,
+          },
+        }
+      end, { desc = 'Find by Grep' })
       vim.keymap.set(
         'n',
         '<leader>lD',

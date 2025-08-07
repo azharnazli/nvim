@@ -13,7 +13,10 @@ return {
     },
     'saghen/blink.cmp',
     { 'williamboman/mason.nvim', config = true },
-    'williamboman/mason-lspconfig.nvim',
+    {
+      'williamboman/mason-lspconfig.nvim',
+      lazy = true 
+    },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     { 'j-hui/fidget.nvim', opts = {} },

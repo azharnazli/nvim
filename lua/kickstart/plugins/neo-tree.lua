@@ -176,7 +176,7 @@ return {
         end,
       },
       window = {
-        width = 30,
+        width = 50,
         mappings = {
           ['<S-CR>'] = 'system_open',
           ['<Space>'] = false,

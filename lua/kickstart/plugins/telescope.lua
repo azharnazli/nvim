@@ -64,6 +64,28 @@ return {
             require('telescope.themes').get_dropdown(),
           },
         },
+        harpoon = {
+          marks = {
+            attach_mappings = function(_, map)
+              local actions = require 'telescope.actions'
+              local action_state = require 'telescope.actions.state'
+              local telescope = require 'telescope'
+
+              map({ 'i', 'n' }, '<C-d>', function(prompt_bufnr)
+                local selection = action_state.get_selected_entry()
+                if selection then
+                  require('harpoon'):list():remove(selection.ordinal)
+                end
+                actions.close(prompt_bufnr)
+                vim.schedule(function()
+                  telescope.extensions.harpoon.marks()
+                end)
+              end, { silent = true })
+
+              return true
+            end,
+          },
+        },
       }
 
       -- Enable Telescope extensions if they are installed
@@ -71,7 +93,7 @@ return {
       pcall(require('telescope').load_extension, 'ui-select')
       pcall(require('telescope').load_extension, 'workspaces')
       pcall(require('telescope').load_extension, 'undo')
-
+      pcall(require('telescope').load_extension 'harpoon')
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       local action_state = require 'telescope.actions.state'

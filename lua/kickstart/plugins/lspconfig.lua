@@ -15,10 +15,10 @@ return {
     { 'williamboman/mason.nvim', config = true },
     {
       'williamboman/mason-lspconfig.nvim',
-      lazy = true 
+      lazy = true,
     },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
-
+    'dmmulroy/ts-error-translator.nvim',
     { 'j-hui/fidget.nvim', opts = {} },
   },
 
@@ -266,6 +266,20 @@ return {
         map('<leader>la', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
         map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
         local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if client.name == 'vtsls' or client.name == 'tsserver' then
+          vim.lsp.handlers['textDocument/publishDiagnostics'] = function(
+            err,
+            result,
+            ctx
+          )
+            require('ts-error-translator').translate_diagnostics(
+              err,
+              result,
+              ctx
+            )
+            vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
+          end
+        end
         if
           client
           and client.supports_method(

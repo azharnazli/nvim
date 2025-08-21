@@ -1,3 +1,13 @@
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'VeryLazy', -- lazy.nvim fires this after all plugins load
+  callback = function()
+    local ok, wk_title = pcall(require, 'wk_title')
+    if ok then
+      wk_title.register_titles()
+    end
+  end,
+})
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set(
   'n',
@@ -135,25 +145,25 @@ vim.keymap.set({ 'n', 't' }, '<c-t>2', function()
 end, { desc = 'Toggle Secondary Terminal' })
 
 -- Resize buffer width with Ctrl + Arrow keys
-vim.api.nvim_set_keymap(
+vim.keymap.set(
   'n',
   '<C-Left>',
   ':vertical resize -2<CR>',
   { noremap = true, silent = true, desc = 'Resize width -2' }
 )
-vim.api.nvim_set_keymap(
+vim.keymap.set(
   'n',
   '<C-Right>',
   ':vertical resize +2<CR>',
   { noremap = true, silent = true, desc = 'Resize width +2' }
 )
-vim.api.nvim_set_keymap(
+vim.keymap.set(
   'n',
   '<C-Up>',
   ':resize +2<CR>',
   { noremap = true, silent = true, desc = 'Resize height +2' }
 )
-vim.api.nvim_set_keymap(
+vim.keymap.set(
   'n',
   '<C-Down>',
   ':resize -2<CR>',

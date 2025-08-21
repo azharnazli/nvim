@@ -1,4 +1,3 @@
-vim.g.zig_fmt_parse_errors = 0
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
@@ -13,16 +12,12 @@ return {
     },
     'saghen/blink.cmp',
     { 'williamboman/mason.nvim', config = true },
-    {
-      'williamboman/mason-lspconfig.nvim',
-      lazy = true,
-    },
+    { 'williamboman/mason-lspconfig.nvim', lazy = true },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'dmmulroy/ts-error-translator.nvim',
     { 'j-hui/fidget.nvim', opts = {} },
   },
 
-  -- example using `opts` for defining servers
   opts = {
     servers = {
       clangd = {
@@ -30,23 +25,10 @@ return {
           offsetEncoding = 'utf-8',
         },
       },
-      rust_analyzer = {
-        settings = {
-          ['rust-analyzer'] = {
-            check = {
-              command = 'clippy',
-              extraArgs = {
-                '--no-deps',
-              },
-            },
-          },
-        },
-      },
       jsonls = {
         filetypes = { 'json', 'jsonc' },
         settings = {
           json = {
-            -- Schemas https://www.schemastore.org
             schemas = {
               {
                 fileMatch = { 'package.json' },
@@ -86,63 +68,13 @@ return {
                   '.stylelintrc.json',
                   'stylelint.config.json',
                 },
-                url = 'http://json.schemastore.org/stylelintrc.json',
+                url = 'https://json.schemastore.org/stylelintrc.json',
               },
             },
           },
         },
       },
-      gopls = {
-        formatting = {
-          style = 'goimports', -- Use goimports style
-          maxLineLength = 120, -- Set max line width to 120
-        },
-        settings = {
-          gopls = {
-            analyses = {
-              ST1003 = true,
-              fieldalignment = false,
-              fillreturns = true,
-              nilness = true,
-              nonewvars = true,
-              shadow = true,
-              undeclaredname = true,
-              unreachable = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            codelenses = {
-              gc_details = true, -- Show a code lens toggling the display of gc's choices.
-              generate = true, -- show the `go generate` lens.
-              regenerate_cgo = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-            buildFlags = { '-tags', 'integration' },
-            completeUnimported = true,
-            diagnosticsDelay = '500ms',
-            gofumpt = true,
-            matcher = 'Fuzzy',
-            semanticTokens = true,
-            staticcheck = true,
-            symbolMatcher = 'fuzzy',
-            usePlaceholders = true,
-          },
-        },
-      },
-      -- eslint = {},
+      gopls = {},
       vtsls = {
         settings = {
           typescript = {
@@ -175,35 +107,35 @@ return {
       zls = {
         settings = {
           zig = {
-            zls = {
-              buildOnSaveStep = 'check',
-            },
+            zls = { buildOnSaveStep = 'check' },
             buildOnSave = true,
           },
         },
       },
+
       lua_ls = {
         settings = {
           Lua = {
-            completion = {
-              callSnippet = 'Replace',
-            },
+            completion = { callSnippet = 'Replace' },
           },
         },
       },
+
       tailwindcss = {},
+      -- eslint = {},
     },
   },
 
   config = function(_, opts)
+    -- Mason & tool installation
     require('mason').setup()
+
     local ensure_installed = {
       'jsonls',
       'codespell',
       'prettierd',
       'goimports',
       'zls',
-      'rust_analyzer',
       'vtsls',
       'lua-language-server',
       'gopls',
@@ -217,127 +149,169 @@ return {
       ensure_installed = ensure_installed,
     }
 
+    ---------------------------------------------------------------------------
+    -- LSP attach helpers
+    ---------------------------------------------------------------------------
+    local function map(buf, mode, lhs, rhs, desc)
+      mode = mode or 'n'
+      vim.keymap.set(
+        mode,
+        lhs,
+        rhs,
+        { buffer = buf, desc = ('LSP: %s'):format(desc or '') }
+      )
+    end
+
+    local function setup_keymaps(buf)
+      local tb = require 'telescope.builtin'
+      map(buf, 'n', 'gd', tb.lsp_definitions, 'Goto Definition')
+      map(buf, 'n', 'gr', tb.lsp_references, 'Goto References')
+      map(buf, 'n', 'gI', tb.lsp_implementations, 'Goto Implementation')
+      map(buf, 'n', 'gy', tb.lsp_type_definitions, 'Type Definition')
+      map(buf, 'n', '<leader>ls', tb.lsp_document_symbols, 'Document Symbols')
+      map(
+        buf,
+        'n',
+        '<leader>ws',
+        tb.lsp_dynamic_workspace_symbols,
+        'Workspace Symbols'
+      )
+      map(buf, 'n', '<leader>lr', vim.lsp.buf.rename, 'Rename')
+      map(
+        buf,
+        { 'n', 'x' },
+        '<leader>la',
+        vim.lsp.buf.code_action,
+        'Code Action'
+      )
+      map(buf, 'n', 'gD', vim.lsp.buf.declaration, 'Goto Declaration')
+    end
+
+    local function setup_highlighting(client, buf)
+      if
+        not (
+          client
+          and client.supports_method(
+            vim.lsp.protocol.Methods.textDocument_documentHighlight
+          )
+        )
+      then
+        return
+      end
+      local group = vim.api.nvim_create_augroup(
+        'kickstart-lsp-highlight',
+        { clear = false }
+      )
+
+      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+        group = group,
+        buffer = buf,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+        group = group,
+        buffer = buf,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      vim.api.nvim_create_autocmd('LspDetach', {
+        group = vim.api.nvim_create_augroup(
+          'kickstart-lsp-detach',
+          { clear = true }
+        ),
+        callback = function(ev)
+          pcall(vim.lsp.buf.clear_references)
+          vim.api.nvim_clear_autocmds {
+            group = 'kickstart-lsp-highlight',
+            buffer = ev.buf,
+          }
+        end,
+      })
+    end
+
+    local function setup_inlay_toggle(client, buf)
+      if
+        not (
+          client
+          and client.supports_method(
+            vim.lsp.protocol.Methods.textDocument_inlayHint
+          )
+        )
+      then
+        return
+      end
+
+      -- Inlay hint compatibility wrapper (pre/post 0.10)
+      local function toggle_inlay()
+        local ih = vim.lsp.inlay_hint
+        local enabled = false
+        if ih and ih.is_enabled then
+          enabled = ih.is_enabled { bufnr = buf }
+          ih.enable(not enabled, { bufnr = buf })
+        elseif ih and ih.enable and ih.get then
+          enabled = ih.get(buf)
+          ih.enable(buf, not enabled)
+        end
+      end
+
+      map(buf, 'n', '<leader>lh', toggle_inlay, 'Toggle Inlay Hints')
+    end
+
+    local function setup_ts_error_translator(client)
+      if not client then
+        return
+      end
+      if client.name == 'vtsls' or client.name == 'tsserver' then
+        local translator = require 'ts-error-translator'
+        local orig = vim.lsp.handlers['textDocument/publishDiagnostics']
+        vim.lsp.handlers['textDocument/publishDiagnostics'] = function(
+          err,
+          result,
+          ctx,
+          cfg
+        )
+          translator.translate_diagnostics(err, result, ctx)
+          if orig then
+            return orig(err, result, ctx, cfg)
+          else
+            -- Fallback (older API)
+            return vim.lsp.diagnostic.on_publish_diagnostics(
+              err,
+              result,
+              ctx,
+              cfg
+            )
+          end
+        end
+      end
+    end
+
+    -- One LspAttach to rule them all
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup(
         'kickstart-lsp-attach',
         { clear = true }
       ),
-      callback = function(event)
-        local map = function(keys, func, desc, mode)
-          mode = mode or 'n'
-          vim.keymap.set(
-            mode,
-            keys,
-            func,
-            { buffer = event.buf, desc = 'LSP: ' .. desc }
-          )
-        end
-        map(
-          'gd',
-          require('telescope.builtin').lsp_definitions,
-          'Goto Definition'
-        )
-        map(
-          'gr',
-          require('telescope.builtin').lsp_references,
-          'Goto References'
-        )
-        map(
-          'gI',
-          require('telescope.builtin').lsp_implementations,
-          'Goto Implementation'
-        )
-        map(
-          'gy',
-          require('telescope.builtin').lsp_type_definitions,
-          'Type Definition'
-        )
-        map(
-          '<leader>ls',
-          require('telescope.builtin').lsp_document_symbols,
-          'Document Symbols'
-        )
-        map(
-          '<leader>ws',
-          require('telescope.builtin').lsp_dynamic_workspace_symbols,
-          'Workspace Symbols'
-        )
-        map('<leader>lr', vim.lsp.buf.rename, 'Rename')
-        map('<leader>la', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
-        map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
-        local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client.name == 'vtsls' or client.name == 'tsserver' then
-          vim.lsp.handlers['textDocument/publishDiagnostics'] = function(
-            err,
-            result,
-            ctx
-          )
-            require('ts-error-translator').translate_diagnostics(
-              err,
-              result,
-              ctx
-            )
-            vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
-          end
-        end
-        if
-          client
-          and client.supports_method(
-            vim.lsp.protocol.Methods.textDocument_documentHighlight
-          )
-        then
-          local highlight_augroup = vim.api.nvim_create_augroup(
-            'kickstart-lsp-highlight',
-            { clear = false }
-          )
-          vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-            buffer = event.buf,
-            group = highlight_augroup,
-            callback = vim.lsp.buf.document_highlight,
-          })
-
-          vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-            buffer = event.buf,
-            group = highlight_augroup,
-            callback = vim.lsp.buf.clear_references,
-          })
-
-          vim.api.nvim_create_autocmd('LspDetach', {
-            group = vim.api.nvim_create_augroup(
-              'kickstart-lsp-detach',
-              { clear = true }
-            ),
-            callback = function(event2)
-              vim.lsp.buf.clear_references()
-              vim.api.nvim_clear_autocmds {
-                group = 'kickstart-lsp-highlight',
-                buffer = event2.buf,
-              }
-            end,
-          })
-        end
-        if
-          client
-          and client.supports_method(
-            vim.lsp.protocol.Methods.textDocument_inlayHint
-          )
-        then
-          map('<leader>lh', function()
-            vim.lsp.inlay_hint.enable(
-              not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }
-            )
-          end, 'Toggle Inlay Hints')
-        end
+      callback = function(ev)
+        local buf = ev.buf
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        setup_keymaps(buf)
+        setup_highlighting(client, buf)
+        setup_inlay_toggle(client, buf)
+        setup_ts_error_translator(client)
       end,
     })
 
+    ---------------------------------------------------------------------------
+    -- Server setup
+    ---------------------------------------------------------------------------
     local lspconfig = require 'lspconfig'
-    for server, config in pairs(opts.servers) do
-      -- passing config.capabilities to blink.cmp merges with the capabilities in your
-      -- `opts[server].capabilities, if you've defined it
-      config.capabilities =
-        require('blink.cmp').get_lsp_capabilities(config.capabilities)
-      lspconfig[server].setup(config)
+    for server, cfg in pairs(opts.servers or {}) do
+      -- Merge blink.cmp capabilities with any per-server capabilities
+      cfg.capabilities =
+        require('blink.cmp').get_lsp_capabilities(cfg.capabilities)
+      lspconfig[server].setup(cfg)
     end
   end,
 }

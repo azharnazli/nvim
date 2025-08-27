@@ -135,7 +135,6 @@ return {
       'codespell',
       'prettierd',
       'goimports',
-      'zls',
       'vtsls',
       'lua-language-server',
       'gopls',

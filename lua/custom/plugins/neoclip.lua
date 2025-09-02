@@ -71,7 +71,7 @@ return {
 
     vim.keymap.set(
       'n',
-      '<leader>"',
+      "<leader>'",
       ':Telescope neoclip<cr>',
       { silent = true }
     )

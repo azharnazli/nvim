@@ -1,1 +1,3 @@
-return {}
+return {
+  { 'avante.nvim', enabled = false },
+}

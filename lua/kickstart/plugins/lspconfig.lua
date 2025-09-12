@@ -261,7 +261,7 @@ return {
       if not client then
         return
       end
-      if client.name == 'vtsls' or client.name == 'tsserver' then
+      if client.name == 'vtsls' then
         local translator = require 'ts-error-translator'
         local orig = vim.lsp.handlers['textDocument/publishDiagnostics']
         vim.lsp.handlers['textDocument/publishDiagnostics'] = function(

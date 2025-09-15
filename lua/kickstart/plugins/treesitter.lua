@@ -43,6 +43,12 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
     config = function()
       require('nvim-treesitter.configs').setup {
+        ensure_installed = {}, -- or a list: { 'lua', 'vim', 'typescript', ... }
+        sync_install = false,
+        auto_install = false,
+        ignore_install = {},
+        modules = {},
+
         textobjects = {
           select = {
             enable = true,

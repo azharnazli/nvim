@@ -1,3 +1,4 @@
 return {
-  { 'avante.nvim', enabled = false },
+  -- { 'avante.nvim', enabled = false },
+  { 'alexghergh/nvim-tmux-navigation', enabled = false },
 }

@@ -133,7 +133,7 @@ return {
     local ensure_installed = {
       'jsonls',
       'codespell',
-      'prettierd',
+      'prettier',
       'goimports',
       'vtsls',
       'lua-language-server',

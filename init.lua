@@ -9,27 +9,12 @@ vim.g.omni_sql_no_default_maps = 0
 vim.opt.fileformat = 'unix'
 vim.opt.fileformats = 'unix,dos'
 
-if vim.g.vscode then
-  local vscode = require 'vscode'
-  vim.notify = vscode.notify
-  require 'keymap_vscode'
-  require 'options_vscode'
-else
-  -- [[ Setting options ]]
-  require 'options'
+require 'options'
 
-  require 'auto'
-  require 'user'
+require 'user'
 
-  -- [[ Basic Keymaps ]]
-  require 'keymaps'
+require 'keymaps'
 
-  -- [[ Install `lazy.nvim` plugin manager ]]
-  require 'lazy-bootstrap'
+require 'bootstrap'
 
-  -- [[ Configure and install plugins ]]
-  require 'lazy-plugins'
-
-  -- The line beneath this is called `modeline`. See `:help modeline`
-  -- vim: ts=2 sts=2 sw=2 et
-end
+require 'plugins'

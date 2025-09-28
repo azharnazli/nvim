@@ -2,6 +2,7 @@ require('lazy').setup({
   'tpope/vim-sleuth',
   require 'core/which-key',
   require 'core/telescope',
+  require 'core/mason',
   require 'core/lspconfig',
   require 'core/cmp',
   require 'core/treesitter',
@@ -9,7 +10,6 @@ require('lazy').setup({
   require 'core/conform',
   require 'core/autopair',
   require 'core/gitsigns',
-  require 'core/lint',
   require 'core/indent-line',
 
   { import = 'custom/plugins' },

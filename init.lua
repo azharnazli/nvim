@@ -11,10 +11,12 @@ vim.opt.fileformats = 'unix,dos'
 
 require 'options'
 
-require 'user'
-
 require 'keymaps'
 
 require 'bootstrap'
 
 require 'plugins'
+
+require 'lsp'
+
+require 'user'

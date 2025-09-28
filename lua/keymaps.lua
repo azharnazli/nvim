@@ -8,6 +8,21 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'LSP: goto def' })
+vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'LSP: refs' })
+vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { desc = 'LSP: impl' })
+vim.keymap.set(
+  'n',
+  'gy',
+  vim.lsp.buf.type_definition,
+  { desc = 'LSP: type def' }
+)
+vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { desc = 'LSP: rename' })
+vim.keymap.set({ 'n', 'x' }, '<leader>la', vim.lsp.buf.code_action, {
+  desc = 'LSP: action',
+})
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'LSP: hover' })
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set(
   'n',

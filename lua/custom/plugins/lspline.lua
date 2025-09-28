@@ -1,4 +1,3 @@
--- autocmds: update when cursor moves or holds
 return {
   'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
   config = function()

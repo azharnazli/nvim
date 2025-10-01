@@ -176,6 +176,7 @@ return {
         end,
       },
       window = {
+        position = 'right',
         width = 50,
         mappings = {
           ['<S-CR>'] = 'system_open',

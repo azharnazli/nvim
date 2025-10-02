@@ -1,8 +1,6 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'j-hui/fidget.nvim', opts = {} },
-    'dmmulroy/ts-error-translator.nvim',
     {
       'folke/lazydev.nvim',
       ft = 'lua',

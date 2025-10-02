@@ -46,21 +46,18 @@ vim.keymap.set('n', '<leader>c', function()
 end, { desc = 'Close Current Buffer' })
 
 vim.keymap.set('n', '<leader>bc', function()
+  local current = vim.api.nvim_get_current_buf()
   local bufs = vim.api.nvim_list_bufs()
+
   for _, buf in ipairs(bufs) do
-    local term = false
-    local neoBuf = nil
-    if vim.api.nvim_buf_get_name(buf):match 'toggleterm' then
-      term = true
-    end
-    if vim.api.nvim_buf_get_name(buf):match 'neo%-tree' then
-      neoBuf = buf
-    end
-    if buf ~= neoBuf and not term and buf ~= vim.g.last then
+    local is_term = vim.api.nvim_buf_get_name(buf):match 'toggleterm'
+    local is_neo = vim.api.nvim_buf_get_name(buf):match 'neo%-tree'
+
+    if buf ~= current and not is_term and not is_neo then
       vim.api.nvim_buf_delete(buf, { force = true })
     end
   end
-end, { desc = 'Close All Buffer Except Current Buffer' })
+end, { desc = 'Close all buffers except current' })
 
 vim.keymap.set('n', '<leader>bl', function()
   vim.cmd('e ' .. vim.g.last_path)

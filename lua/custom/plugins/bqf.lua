@@ -1,5 +1,4 @@
 return {
-  'nvim-treesitter/nvim-treesitter',
-  run = ':TSUpdate',
+  'kevinhwang91/nvim-bqf',
   opts = {},
 }

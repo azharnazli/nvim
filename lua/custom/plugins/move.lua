@@ -1,6 +1,5 @@
 return {
   'fedepujol/move.nvim',
-  opts = {},
   config = function()
     local opts = { noremap = true, silent = true }
 

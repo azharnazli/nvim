@@ -89,12 +89,12 @@ return {
         map(
           'n',
           '<leader>gL',
-          gitsigns.toggle_current_line_blame,
+          gitsigns.blame,
           { desc = 'Toggle git show blame line' }
         )
         map(
           'n',
-          '<leader>gD',
+          '<leader>gX',
           gitsigns.toggle_deleted,
           { desc = 'Toggle git show Deleted' }
         )

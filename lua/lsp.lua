@@ -4,6 +4,7 @@ vim.lsp.enable {
   'tailwindcss',
   'zls',
   'eslint_lsp',
+  'rust',
 }
 
 vim.diagnostic.config {

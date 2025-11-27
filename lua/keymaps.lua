@@ -182,6 +182,20 @@ vim.keymap.set(
   { noremap = true, silent = true, desc = 'Resize height -2' }
 )
 
+vim.keymap.set(
+  'n',
+  '<leader>gd',
+  ':CodeDiff file HEAD<cr>',
+  { noremap = true, silent = true, desc = 'Codediff current file' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>gD',
+  ':CodeDiff<cr>',
+  { noremap = true, silent = true, desc = 'Codediff current all' }
+)
+
 --auto command
 
 vim.api.nvim_create_autocmd('TextYankPost', {

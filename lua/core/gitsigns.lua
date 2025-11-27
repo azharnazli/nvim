@@ -76,15 +76,15 @@ return {
           { desc = 'git preview hunk' }
         )
         map('n', '<leader>gl', gitsigns.blame_line, { desc = 'git blame line' })
-        map(
-          'n',
-          '<leader>gd',
-          gitsigns.diffthis,
-          { desc = 'git diff against index' }
-        )
-        map('n', '<leader>gD', function()
-          gitsigns.diffthis '@'
-        end, { desc = 'git Diff against last commit' })
+        -- map(
+        --   'n',
+        --   '<leader>gd',
+        --   gitsigns.diffthis,
+        --   { desc = 'git diff against index' }
+        -- )
+        -- map('n', '<leader>gD', function()
+        --   gitsigns.diffthis '@'
+        -- end, { desc = 'git Diff against last commit' })
         -- Toggles
         map(
           'n',

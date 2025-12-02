@@ -5,6 +5,7 @@ vim.lsp.enable {
   'zls',
   'eslint_lsp',
   'rust',
+  'golang',
 }
 
 vim.diagnostic.config {

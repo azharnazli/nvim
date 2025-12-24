@@ -6,6 +6,7 @@ vim.lsp.enable {
   'eslint_lsp',
   'rust',
   'golang',
+  'cpp',
 }
 
 vim.diagnostic.config {

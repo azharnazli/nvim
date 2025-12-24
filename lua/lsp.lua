@@ -7,6 +7,8 @@ vim.lsp.enable {
   'rust',
   'golang',
   'cpp',
+  'cmake',
+  'meson',
 }
 
 vim.diagnostic.config {

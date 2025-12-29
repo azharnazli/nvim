@@ -15,7 +15,7 @@ return {
     direction = 'float',
     close_on_exit = true,
     clear_env = false,
-    shell = vim.o.shell,
+    shell = 'pwsh',
     float_opts = {
       title_pos = 'center',
       border = 'curved',

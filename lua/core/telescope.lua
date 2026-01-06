@@ -179,6 +179,20 @@ return {
         { desc = 'Find existing buffers' }
       )
 
+      vim.keymap.set(
+        'n',
+        '<leader>fi',
+        ':Telescope live_grep search_dirs=/usr/include <cr>',
+        { desc = 'Grep Include File' }
+      )
+
+      vim.keymap.set(
+        'n',
+        '<leader>fI',
+        ':Telescope find_files search_dirs=/usr/include <cr>',
+        { desc = 'Grep Include File' }
+      )
+
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.

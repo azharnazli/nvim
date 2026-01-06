@@ -11,6 +11,7 @@ require('lazy').setup({
   require 'core/autopair',
   require 'core/gitsigns',
   require 'core/indent-line',
+  require 'core/debug',
 
   { import = 'custom/plugins' },
 }, {

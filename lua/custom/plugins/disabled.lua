@@ -1,4 +1,4 @@
 return {
   -- Example
-  -- { "folke/trouble.nvim", enabled = false },
+  { 'aserowy/tmux.nvim', enabled = false },
 }

@@ -11,9 +11,33 @@ return {
     {
       '<F5>',
       function()
-        require('dap').continue()
+        local dap = require 'dap'
+
+        -- remembers last command so F5 is fast on next run
+        vim.g.dap_last_cmd = vim.g.dap_last_cmd or (vim.fn.getcwd() .. '/')
+
+        local line =
+          vim.fn.input('Program [args]: ', vim.g.dap_last_cmd, 'file')
+        line = vim.trim(line)
+        if line == '' then
+          return
+        end
+        vim.g.dap_last_cmd = line
+
+        -- simple split by spaces (no quote handling)
+        local parts = vim.split(line, ' ', { trimempty = true })
+        local program = table.remove(parts, 1)
+        local args = parts
+
+        -- run using your existing selected configuration, but override program/args
+        dap.run(
+          vim.tbl_extend('force', dap.configurations[vim.bo.filetype][1], {
+            program = program,
+            args = args,
+          })
+        )
       end,
-      desc = 'Debug: Start/Continue',
+      desc = 'Debug: Start/Continue (Program + args)',
     },
     {
       '<F1>',

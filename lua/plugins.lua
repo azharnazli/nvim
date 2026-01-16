@@ -1,7 +1,6 @@
 require('lazy').setup({
   'tpope/vim-sleuth',
   require 'core/which-key',
-  require 'core/telescope',
   require 'core/mason',
   require 'core/lspconfig',
   require 'core/cmp',

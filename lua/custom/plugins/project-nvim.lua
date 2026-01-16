@@ -2,17 +2,11 @@ return {
   'DrKJeff16/project.nvim',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope.nvim',
     'ibhagwan/fzf-lua',
   },
   keys = {
     -- The main search commands
     { '<leader>pf', '<cmd>ProjectFzf<cr>', desc = 'Find Projects (FZF)' },
-    {
-      '<leader>pt',
-      '<cmd>ProjectTelescope<cr>',
-      desc = 'Find Projects (Telescope)',
-    },
 
     -- Project Management
     { '<leader>pp', '<cmd>Project<cr>', desc = 'Projects Menu' },

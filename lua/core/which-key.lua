@@ -1,7 +1,7 @@
 return {
   {
     'folke/which-key.nvim',
-    event = 'VimEnter', 
+    event = 'VimEnter',
     opts = {
       icons = {
         mappings = vim.g.have_nerd_font,
@@ -42,6 +42,7 @@ return {
         { '<leader>f', group = 'Find' },
         { '<leader>w', group = 'Workspace' },
         { '<leader>h', group = 'Git', mode = { 'n', 'v' } },
+        { '<leader>p', group = 'Project' },
       },
     },
   },

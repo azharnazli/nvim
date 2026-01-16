@@ -71,6 +71,7 @@ return {
       pcall(require('telescope').load_extension, 'ui-select')
       pcall(require('telescope').load_extension, 'workspaces')
       pcall(require('telescope').load_extension, 'undo')
+      pcall(require('telescope').load_extension 'projects')
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       local action_state = require 'telescope.actions.state'

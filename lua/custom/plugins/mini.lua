@@ -7,7 +7,6 @@ return {
       require('mini.cursorword').setup()
       require('mini.indentscope').setup()
       require('mini.starter').setup()
-
       local files = require 'mini.files'
 
       files.setup {
@@ -41,7 +40,7 @@ return {
       files.create = function(...)
         original_create(...)
         vim.defer_fn(function()
-          MiniFiles.synchronize()
+          files.synchronize()
         end, 10)
       end
 

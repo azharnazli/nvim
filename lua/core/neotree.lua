@@ -71,6 +71,7 @@ return {
         git_available and 'git_status' or nil,
       },
       source_selector = {
+        truncation_character = '...',
         winbar = true,
         content_layout = 'center',
         sources = sources,
@@ -82,6 +83,7 @@ return {
           expander_expanded = get_icon 'FoldOpened',
         },
         icon = {
+          use_filtered_colors = true,
           folder_closed = get_icon 'FolderClosed',
           folder_open = get_icon 'FolderOpen',
           folder_empty = get_icon 'FolderEmpty',
@@ -180,7 +182,6 @@ return {
         width = 50,
         mappings = {
           ['<S-CR>'] = 'system_open',
-          ['<Space>'] = false,
           ['[b'] = 'prev_source',
           [']b'] = 'next_source',
           O = 'system_open',
@@ -217,12 +218,5 @@ return {
       '<cmd>Neotree toggle<cr>',
       { desc = 'Toggle Neotree' }
     )
-    vim.keymap.set('n', '<leader>o', function()
-      if vim.bo.filetype == 'neo-tree' then
-        vim.cmd.wincmd 'p'
-      else
-        vim.cmd.Neotree 'focus'
-      end
-    end, { desc = 'Toggle Explorer Focus' })
   end,
 }

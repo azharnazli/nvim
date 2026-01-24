@@ -1,7 +1,5 @@
-local virtual_line_enabled = true
-
 vim.api.nvim_create_autocmd('User', {
-  pattern = 'VeryLazy', -- lazy.nvim fires this after all plugins load
+  pattern = 'VeryLazy',
   callback = function()
     local ok, wk_title = pcall(require, 'wk_title')
     if ok then
@@ -9,6 +7,14 @@ vim.api.nvim_create_autocmd('User', {
     end
   end,
 })
+
+vim.keymap.set('n', '<leader>tn', ':tabn<cr>', { desc = 'Tab: move next tab' })
+vim.keymap.set(
+  'n',
+  '<leader>tp',
+  ':tabp<cr>',
+  { desc = 'Tab: move previous tab' }
+)
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'LSP: goto def' })
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'LSP: refs' })
@@ -33,14 +39,6 @@ vim.keymap.set(
   { desc = 'Open diagnostic Quickfix list' }
 )
 
-vim.keymap.set('n', '<leader>lj', function()
-  vim.diagnostic.config {
-    virtual_lines = virtual_line_enabled,
-  }
-
-  virtual_line_enabled = not virtual_line_enabled
-end, { desc = 'Toggle virtual diagnostic line' })
-
 vim.keymap.set('n', '<leader>bd', function()
   require('mini.bufremove').delete()
 end, { desc = 'Close Current Buffer' })
@@ -63,8 +61,9 @@ vim.keymap.set('n', '<leader>bl', function()
   vim.cmd('e ' .. vim.g.last_path)
 end, { desc = 'Resume last close buffer' })
 
-vim.keymap.set('n', '<leader>Nr', function()
+vim.keymap.set('n', '<leader>nr', function()
   vim.cmd('source ' .. vim.env.MYVIMRC)
+  vim.cmd('luafile ' .. vim.env.MYVIMRC)
   print 'Config Reloaded!'
 end)
 

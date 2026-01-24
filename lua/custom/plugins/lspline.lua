@@ -5,7 +5,7 @@ return {
     local enable = false
     vim.keymap.set('n', '<leader>lw', function()
       enable = not enable
-    end)
+    end, { desc = 'Toggle lsp line' })
 
     vim.diagnostic.config { virtual_text = false }
     local function show_diagnostics_for_cursor()

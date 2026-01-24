@@ -1,5 +1,4 @@
 local virtual_line_enabled = true
-local status_ok, fzf = pcall(require, 'fzf-lua')
 
 vim.api.nvim_create_autocmd('User', {
   pattern = 'VeryLazy', -- lazy.nvim fires this after all plugins load
@@ -42,11 +41,11 @@ vim.keymap.set('n', '<leader>lj', function()
   virtual_line_enabled = not virtual_line_enabled
 end, { desc = 'Toggle virtual diagnostic line' })
 
-vim.keymap.set('n', '<leader>c', function()
+vim.keymap.set('n', '<leader>bd', function()
   require('mini.bufremove').delete()
 end, { desc = 'Close Current Buffer' })
 
-vim.keymap.set('n', '<leader>bc', function()
+vim.keymap.set('n', '<leader>bD', function()
   local current = vim.api.nvim_get_current_buf()
   local bufs = vim.api.nvim_list_bufs()
 
@@ -63,6 +62,11 @@ end, { desc = 'Close all buffers except current' })
 vim.keymap.set('n', '<leader>bl', function()
   vim.cmd('e ' .. vim.g.last_path)
 end, { desc = 'Resume last close buffer' })
+
+vim.keymap.set('n', '<leader>Nr', function()
+  vim.cmd('source ' .. vim.env.MYVIMRC)
+  print 'Config Reloaded!'
+end)
 
 vim.keymap.set('n', '<C-s>', '<cmd>:w<cr>', { desc = 'Save current file' })
 vim.keymap.set(

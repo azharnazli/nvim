@@ -187,6 +187,7 @@ return {
           Y = 'copy_selector',
           h = 'parent_or_close',
           l = 'child_or_open',
+          f = 'none',
         },
         fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
           ['<C-J>'] = 'move_cursor_down',

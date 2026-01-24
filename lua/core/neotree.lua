@@ -182,6 +182,7 @@ return {
         width = 50,
         mappings = {
           ['<S-CR>'] = 'system_open',
+          ['<space>'] = 'none',
           ['[b'] = 'prev_source',
           [']b'] = 'next_source',
           O = 'system_open',

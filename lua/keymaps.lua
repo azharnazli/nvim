@@ -200,42 +200,6 @@ vim.keymap.set(
   { noremap = true, silent = true, desc = 'Codediff current all' }
 )
 
-vim.keymap.set('n', '<leader>ff', ':FzfLua files<cr>', { desc = 'Find files' })
-vim.keymap.set(
-  'n',
-  '<leader>fw',
-  ':FzfLua live_grep<cr>',
-  { desc = 'Live grep' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fg',
-  ':FzfLua grep_cword<cr>',
-  { desc = 'Grep current word' }
-)
-vim.keymap.set(
-  'n',
-  '<leader>fo',
-  ':FzfLua oldfiles<cr>',
-  { desc = 'Recent files' }
-)
-
-vim.keymap.set('n', '<leader>fb', ':FzfLua buffers<cr>', { desc = 'Buffers' })
-vim.keymap.set(
-  'n',
-  '<leader>fh',
-  ':FzfLua helptags<cr>',
-  { desc = 'Help tags' }
-)
-vim.keymap.set('n', '<leader>fk', ':FzfLua keymaps<cr>', { desc = 'Keymaps' })
-
-vim.keymap.set(
-  'n',
-  '<leader>f<CR>',
-  ':FzfLua resume<cr>',
-  { desc = 'Resume last search' }
-)
-
 --auto command
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

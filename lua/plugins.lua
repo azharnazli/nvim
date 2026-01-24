@@ -37,7 +37,6 @@ require('lazy').setup({
 
 vim.api.nvim_create_autocmd('FocusGained', {
   callback = function()
-    -- Attempt to load the manager safely
     local status_ok, manager = pcall(require, 'neo-tree.sources.manager')
     if status_ok then
       manager.refresh 'filesystem'

@@ -37,9 +37,14 @@ require('lazy').setup({
 
 vim.api.nvim_create_autocmd('FocusGained', {
   callback = function()
-    local status_ok, manager = pcall(require, 'neo-tree.sources.manager')
-    if status_ok then
-      manager.refresh 'filesystem'
+    local nt_ok, nt_manager = pcall(require, 'neo-tree.sources.manager')
+    if nt_ok then
+      nt_manager.refresh 'filesystem'
+    end
+
+    local gs_ok, gitsigns = pcall(require, 'gitsigns')
+    if gs_ok then
+      gitsigns.refresh()
     end
   end,
 })

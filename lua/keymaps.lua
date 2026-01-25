@@ -8,6 +8,13 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+vim.keymap.set('n', '<leader>td', ':tabc<cr>', { desc = 'Tab: close tab' })
+vim.keymap.set(
+  'n',
+  '<leader>tD',
+  ':tabo<cr>',
+  { desc = 'Tab: close all tab except this' }
+)
 vim.keymap.set('n', '<leader>tn', ':tabn<cr>', { desc = 'Tab: move next tab' })
 vim.keymap.set(
   'n',

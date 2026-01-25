@@ -81,6 +81,7 @@ return {
       -- User keymap
       ['<BS>'] = 'actions.parent',
       ['<Tab>'] = 'actions.select',
+      ['.'] = { 'actions.toggle_hidden', mode = 'n' },
     },
     -- Set to false to disable all of the above keymaps
     use_default_keymaps = true,

@@ -3,6 +3,9 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
 
   opts = {
+    winopts = {
+      fullscreen = true,
+    },
     keymap = {
       fzf = {
         ['alt-j'] = 'down',

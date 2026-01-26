@@ -5,7 +5,7 @@ require('lazy').setup({
   require 'core/lspconfig',
   require 'core/cmp',
   require 'core/treesitter',
-  -- require 'core/neotree',
+  require 'core/trouble',
   require 'core/conform',
   require 'core/autopair',
   require 'core/gitsigns',

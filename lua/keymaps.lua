@@ -27,6 +27,12 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
+vim.keymap.set(
+  'n',
+  '<leader>tb',
+  ':tabedit %<cr>',
+  { desc = 'Tab: Promote current buffer to new tab' }
+)
 vim.keymap.set('n', '<leader>td', ':tabc<cr>', { desc = 'Tab: close tab' })
 vim.keymap.set(
   'n',

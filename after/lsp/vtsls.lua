@@ -27,4 +27,16 @@ return {
 
     on_dir(project_root)
   end,
+  settings = {
+    typescript = {
+      inlayHints = {
+        parameterNames = { enabled = 'all' },
+        parameterTypes = { enabled = true },
+        variableTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        enumMemberValues = { enabled = true },
+      },
+    },
+  },
 }

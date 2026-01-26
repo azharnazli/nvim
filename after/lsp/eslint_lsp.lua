@@ -179,7 +179,7 @@ return {
       if not result then
         return
       end
-      return 4 -- approved
+      return 4
     end,
     ['eslint/probeFailed'] = function()
       vim.notify('[lspconfig] ESLint probe failed.', vim.log.levels.WARN)

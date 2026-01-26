@@ -1,3 +1,22 @@
+local function reload_config()
+  -- 1. Identify your module namespace
+  -- Change "user" to whatever your config folder is named under ~/.config/nvim/lua/
+  local namespace = 'user' -- e.g. lua/user/*.lua
+
+  -- 2. Unload modules in that namespace
+  for name, _ in pairs(package.loaded) do
+    if name:match('^' .. namespace) then
+      package.loaded[name] = nil
+    end
+  end
+
+  -- 3. Re-run init.lua
+  local init = vim.fn.stdpath 'config' .. '/init.lua'
+  dofile(init)
+
+  vim.notify('Neovim config reloaded!', vim.log.levels.INFO)
+end
+
 vim.api.nvim_create_autocmd('User', {
   pattern = 'VeryLazy',
   callback = function()
@@ -69,10 +88,9 @@ vim.keymap.set('n', '<leader>bl', function()
 end, { desc = 'Resume last close buffer' })
 
 vim.keymap.set('n', '<leader>nr', function()
-  vim.cmd('source ' .. vim.env.MYVIMRC)
-  vim.cmd('luafile ' .. vim.env.MYVIMRC)
-  print 'Config Reloaded!'
-end)
+  reload_config()
+  print 'Config Reloaded!!'
+end, { desc = 'NEOVIM: reload neovim config' })
 
 vim.keymap.set('n', '<C-s>', '<cmd>:w<cr>', { desc = 'Save current file' })
 vim.keymap.set(
@@ -124,6 +142,16 @@ end, { desc = 'Next todo comment' })
 vim.keymap.set('n', '[t', function()
   require('todo-comments').jump_prev()
 end, { desc = 'Previous todo comment' })
+
+if os.getenv 'TMUX' then
+  vim.keymap.set('n', '<leader>fp', function()
+    os.execute "tmux split-window -v '/home/azharnazli/dotfile-main/script/tmux-sessionizer'"
+  end, { desc = 'tmux-sessionizer in split' })
+
+  vim.keymap.set('n', '<leader>nx', function()
+    os.execute 'tmux kill-window'
+  end, { desc = 'Kill tmux window' })
+end
 
 -- You can also specify a list of valid jump keywords
 
@@ -240,3 +268,6 @@ vim.api.nvim_create_autocmd('FileType', {
     end, { buffer = true, desc = 'Update Quickfix list with input text' })
   end,
 })
+
+-- ============ HELPER ===============
+--

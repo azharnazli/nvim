@@ -1,27 +1,40 @@
+local ui = vim.api.nvim_list_uis()[1]
 return {
   'akinsho/toggleterm.nvim',
+  version = '*',
   opts = {
-    size = 20,
-    -- open_mapping = [[<c-\>]],
-    hide_numbers = true, -- hide the number column in toggleterm buffers
-    shade_filetypes = {},
-    autochdir = false, -- when neovim changes it current directory the terminal will change it's own when next it's opened
-    shade_terminals = true,
-    start_in_insert = true,
-    insert_mappings = true, -- whether or not the open mapping applies in insert mode
-    terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
-    persist_size = true,
-    persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
-    direction = 'float',
-    close_on_exit = true,
-    clear_env = false,
-    shell = vim.o.shell,
-    float_opts = {
-      title_pos = 'center',
-      border = 'curved',
-    },
-    winbar = {
-      enabled = false,
+    open_mapping = nil,
+  },
+  config = function(_, opts)
+    require('toggleterm').setup(opts)
+
+    -- white border for floating terminal
+    vim.api.nvim_set_hl(0, 'FloatBorder', { fg = '#ffffff' }) -- white
+    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'None' }) -- optional transparency
+  end,
+  keys = {
+    {
+      '<C-\\>',
+      function()
+        local Terminal = require('toggleterm.terminal').Terminal
+        local fullscreen = Terminal:new {
+          direction = 'float',
+          float_opts = {
+            border = 'single', -- square + non-curved
+            width = function()
+              return ui.width
+            end,
+            height = function()
+              return ui.height
+            end,
+          },
+          hidden = true,
+          id = 1,
+        }
+        fullscreen:toggle()
+      end,
+      mode = { 'n', 't' },
+      desc = 'Toggle Fullscreen Terminal',
     },
   },
 }

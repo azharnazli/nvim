@@ -33,21 +33,4 @@ vim.opt.pumheight = 10
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.fileformat = 'unix'
-
--- Force Neovim to use wl-copy/paste directly
--- This bypasses the checkhealth detection which fails inside Tmux
-vim.g.clipboard = {
-  name = 'WlClipboard',
-  copy = {
-    ['+'] = 'wl-copy',
-    ['*'] = 'wl-copy',
-  },
-  paste = {
-    ['+'] = 'wl-paste',
-    ['*'] = 'wl-paste',
-  },
-  cache_enabled = 1,
-}
-
--- Ensure the option is set
 vim.opt.clipboard = 'unnamedplus'

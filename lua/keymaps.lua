@@ -1,31 +1,6 @@
-local function reload_config()
-  -- 1. Identify your module namespace
-  -- Change "user" to whatever your config folder is named under ~/.config/nvim/lua/
-  local namespace = 'user' -- e.g. lua/user/*.lua
+require 'tmux_keybind'
 
-  -- 2. Unload modules in that namespace
-  for name, _ in pairs(package.loaded) do
-    if name:match('^' .. namespace) then
-      package.loaded[name] = nil
-    end
-  end
-
-  -- 3. Re-run init.lua
-  local init = vim.fn.stdpath 'config' .. '/init.lua'
-  dofile(init)
-
-  vim.notify('Neovim config reloaded!', vim.log.levels.INFO)
-end
-
-vim.api.nvim_create_autocmd('User', {
-  pattern = 'VeryLazy',
-  callback = function()
-    local ok, wk_title = pcall(require, 'wk_title')
-    if ok then
-      wk_title.register_titles()
-    end
-  end,
-})
+local keymap_helper = require 'kaymaps_helper'
 
 vim.keymap.set(
   'n',
@@ -94,7 +69,7 @@ vim.keymap.set('n', '<leader>bl', function()
 end, { desc = 'Resume last close buffer' })
 
 vim.keymap.set('n', '<leader>nr', function()
-  reload_config()
+  keymap_helper.reload_config()
   print 'Config Reloaded!!'
 end, { desc = 'NEOVIM: reload neovim config' })
 
@@ -141,14 +116,6 @@ vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
 vim.keymap.set('v', '<C-d>', '<C-d>zz') -- scroll down and center it
 vim.keymap.set('v', '<C-u>', '<C-u>zz') -- scroll up and center it
 
-vim.keymap.set('n', ']t', function()
-  require('todo-comments').jump_next()
-end, { desc = 'Next todo comment' })
-
-vim.keymap.set('n', '[t', function()
-  require('todo-comments').jump_prev()
-end, { desc = 'Previous todo comment' })
-
 if os.getenv 'TMUX' then
   vim.keymap.set('n', '<leader>fp', function()
     os.execute "tmux split-window -v '/home/azharnazli/dotfile-main/script/tmux-sessionizer'"
@@ -160,10 +127,6 @@ if os.getenv 'TMUX' then
 end
 
 -- You can also specify a list of valid jump keywords
-
-vim.keymap.set('n', ']t', function()
-  require('todo-comments').jump_next { keywords = { 'ERROR', 'WARNING' } }
-end, { desc = 'Next error/warning todo comment' })
 
 local function toggle_quickfix()
   local windows = vim.fn.getwininfo()
@@ -182,24 +145,6 @@ vim.keymap.set(
   toggle_quickfix,
   { desc = 'Toggle Quickfix Window' }
 )
-
-vim.keymap.set({ 'n', 't' }, '<c-\\>', function()
-  local terminal = require('toggleterm.terminal').Terminal
-  local term1 = terminal:new { id = 1 }
-  term1:toggle()
-end, { desc = 'Toggle Main Terminal' })
-
-vim.keymap.set({ 'n', 't' }, '<c-t>1', function()
-  local terminal = require('toggleterm.terminal').Terminal
-  local term1 = terminal:new { id = 2 }
-  term1:toggle(10, 'horizontal')
-end, { desc = 'Toggle Secondary Terminal' })
-
-vim.keymap.set({ 'n', 't' }, '<c-t>2', function()
-  local terminal = require('toggleterm.terminal').Terminal
-  local term1 = terminal:new { id = 3 }
-  term1:toggle(50, 'vertical')
-end, { desc = 'Toggle Secondary Terminal' })
 
 -- Resize buffer width with Ctrl + Arrow keys
 vim.keymap.set(
@@ -274,6 +219,3 @@ vim.api.nvim_create_autocmd('FileType', {
     end, { buffer = true, desc = 'Update Quickfix list with input text' })
   end,
 })
-
--- ============ HELPER ===============
---

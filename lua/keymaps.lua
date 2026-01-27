@@ -1,6 +1,31 @@
 require 'tmux_keybind'
 local keymap_helper = require 'kaymaps_helper'
 
+vim.keymap.set('n', '<leader>Pr', function()
+  local project_dir = vim.fn.getcwd()
+  local script = project_dir .. '/run.sh'
+
+  if vim.fn.filereadable(script) == 0 then
+    vim.notify('No run.sh in project', vim.log.levels.ERROR)
+    return
+  end
+
+  vim.fn.jobstart({ 'zsh', script }, {
+    stdout_buffered = true,
+    stderr_buffered = true,
+    on_stdout = function(_, data)
+      if data then
+        vim.notify(table.concat(data, '\n'), vim.log.levels.INFO)
+      end
+    end,
+    on_stderr = function(_, data)
+      if data then
+        vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
+      end
+    end,
+  })
+end, { desc = 'Project: Run Project' })
+
 vim.keymap.set(
   'n',
   '<leader>tb',
@@ -126,22 +151,10 @@ if os.getenv 'TMUX' then
 end
 
 -- You can also specify a list of valid jump keywords
-
-local function toggle_quickfix()
-  local windows = vim.fn.getwininfo()
-  for _, win in pairs(windows) do
-    if win['quickfix'] == 1 then
-      vim.cmd.cclose()
-      return
-    end
-  end
-  vim.cmd.copen()
-end
-
 vim.keymap.set(
   'n',
   '<c-q>',
-  toggle_quickfix,
+  keymap_helper.toggle_quickfix,
   { desc = 'Toggle Quickfix Window' }
 )
 
@@ -201,7 +214,6 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf', -- Trigger only in Quickfix windows
   callback = function()
     vim.keymap.set('n', '<leader>uq', function()
-      -- Get input from the user
       local old_text = vim.fn.input 'Text to replace: '
       if old_text == '' then
         print 'No text provided to replace.'

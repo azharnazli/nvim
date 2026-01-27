@@ -1,4 +1,16 @@
 local m = {}
+
+local function toggle_quickfix()
+  local windows = vim.fn.getwininfo()
+  for _, win in pairs(windows) do
+    if win['quickfix'] == 1 then
+      vim.cmd.cclose()
+      return
+    end
+  end
+  vim.cmd.copen()
+end
+
 local function reload_config()
   local namespace = 'user' -- e.g. lua/user/*.lua
 
@@ -25,5 +37,6 @@ vim.api.nvim_create_autocmd('User', {
 })
 
 m.reload_config = reload_config
+m.toggle_quickfix = toggle_quickfix
 
 return m

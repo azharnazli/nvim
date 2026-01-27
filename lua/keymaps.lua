@@ -1,7 +1,7 @@
 require 'tmux_keybind'
 local keymap_helper = require 'kaymaps_helper'
 
-vim.keymap.set('n', '<leader>Pr', function()
+vim.keymap.set('n', '<leader>pr', function()
   local project_dir = vim.fn.getcwd()
   local script = project_dir .. '/run.sh'
 

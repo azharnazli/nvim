@@ -3,7 +3,7 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
     files = {
-      fd_opts = '--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude build --exclude dist --exclude target --exclude .next --exclude .turbo --exclude .env --exclude .env.local',
+      fd_opts = '--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude build --exclude .cache --exclude dist --exclude target --exclude .next --exclude .turbo --exclude .env --exclude .env.local',
     },
     winopts = {
       fullscreen = true,

@@ -28,8 +28,6 @@ return {
         require('fzf-lua').files {
           prompt = 'Files (all)❯ ',
           fd_opts = '--color=never --type f --hidden --follow --no-ignore',
-          -- rg_opts = "--color=never --files --hidden --follow --no-ignore",
-          -- Or with rg:
         }
       end,
       desc = 'Find files (all)',

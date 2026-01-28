@@ -21,12 +21,8 @@ return {
           direction = 'float',
           float_opts = {
             border = 'single', -- square + non-curved
-            width = function()
-              return ui.width
-            end,
-            height = function()
-              return ui.height
-            end,
+            width = 150,
+            height = 40,
           },
           hidden = true,
           id = 1,

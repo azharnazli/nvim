@@ -26,6 +26,41 @@ vim.keymap.set('n', '<leader>pr', function()
   })
 end, { desc = 'Project: Run Project' })
 
+vim.keymap.set('n', '<leader>pR', function()
+  local project_dir = vim.fn.getcwd()
+  local script = project_dir .. '/run.sh'
+
+  if vim.fn.filereadable(script) == 0 then
+    vim.notify('No run.sh in project', vim.log.levels.ERROR)
+    return
+  end
+
+  if not vim.env.TMUX or vim.env.TMUX == '' then
+    vim.notify('Not inside a tmux session', vim.log.levels.ERROR)
+    return
+  end
+
+  local out = vim.fn.system {
+    'tmux',
+    'split-window',
+    '-h',
+    '-p',
+    '35',
+    '-c',
+    project_dir,
+    'zsh',
+    '-c',
+    script .. '; exec zsh',
+  }
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify(
+      'tmux split-window failed: ' .. (out or ''),
+      vim.log.levels.ERROR
+    )
+  end
+end, { desc = 'Project: Run in tmux right 35%' })
+
 vim.keymap.set(
   'n',
   '<leader>tb',

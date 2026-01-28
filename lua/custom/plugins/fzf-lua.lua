@@ -1,20 +1,70 @@
 return {
   'ibhagwan/fzf-lua',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  opts = {
-    files = {
-      fd_opts = '--color=never --type f --hidden --follow --exclude .git --exclude node_modules --exclude build --exclude .cache --exclude dist --exclude target --exclude .next --exclude .turbo --exclude .env --exclude .env.local',
-    },
-    winopts = {
+  opts = function(_, opts)
+    local fzf = require 'fzf-lua'
+    local config = fzf.config
+    local actions = fzf.actions
+
+    -- keep your existing opts table if Lazy already passed one
+    opts = opts or {}
+
+    -- your fd options
+    opts.files = vim.tbl_deep_extend('force', opts.files or {}, {
+      fd_opts = '--color=never --type f --hidden --follow '
+        .. '--exclude .git '
+        .. '--exclude .zig-cache '
+        .. '--exclude node_modules '
+        .. '--exclude build '
+        .. '--exclude .cache '
+        .. '--exclude dist '
+        .. '--exclude target '
+        .. '--exclude .next '
+        .. '--exclude .turbo '
+        .. '--exclude .env '
+        .. '--exclude .env.local',
+    })
+
+    -- fullscreen window
+    opts.winopts = vim.tbl_deep_extend('force', opts.winopts or {}, {
       fullscreen = true,
-    },
-    keymap = {
-      fzf = {
-        ['alt-j'] = 'down',
-        ['alt-k'] = 'up',
+    })
+
+    -- fzf keymaps
+    opts.keymap = opts.keymap or {}
+    opts.keymap.fzf = vim.tbl_extend('force', opts.keymap.fzf or {}, {
+      ['alt-j'] = 'down',
+      ['alt-k'] = 'up',
+      -- select all entries and accept → fzf-lua will send them to quickfix
+      ['ctrl-q'] = 'select-all+accept',
+    })
+
+    -- actions: make grep nice (optional, but explicit)
+    opts.actions = opts.actions or {}
+    opts.actions.files = opts.actions.files
+      or {
+        -- open 1 file, or send multiple to quickfix (fzf-lua default)
+        ['default'] = actions.file_edit_or_qf,
+        ['ctrl-s'] = actions.file_split,
+        ['ctrl-v'] = actions.file_vsplit,
+        ['ctrl-t'] = actions.file_tabedit,
+        ['alt-q'] = actions.file_sel_to_qf,
+      }
+
+    -- grep provider uses the same “file” actions by default,
+    -- but you can override / make it explicit if you want:
+    opts.grep = vim.tbl_deep_extend('force', opts.grep or {}, {
+      actions = {
+        ['default'] = actions.file_edit_or_qf, -- 1 result = jump, many = QF
+        ['alt-q'] = actions.file_sel_to_qf, -- manual “send selected to QF”
       },
-    },
-  },
+    })
+
+    -- finally, pass everything to fzf-lua
+    fzf.setup(opts)
+
+    return opts
+  end,
   keys = {
     {
       '<leader>ff',

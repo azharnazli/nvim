@@ -41,7 +41,23 @@ return {
       ['<C-t>'] = { 'actions.select', opts = { tab = true } },
       ['<C-p>'] = 'actions.preview',
       ['<C-c>'] = { 'actions.close', mode = 'n' },
-      ['q'] = { 'actions.close', mode = 'n' },
+      ['q'] = function()
+        if vim.bo.modified then
+          local choice = vim.fn.confirm('Save changes?', '&Yes\n&No', 2)
+          if choice == 1 then -- Yes
+            require('oil').save({}, function(err)
+              if not err then
+                require('oil').close()
+              end
+            end)
+          elseif choice == 2 then -- No (Discard)
+            require('oil').discard_all_changes()
+            require('oil').close()
+          end
+          require('oil').discard_all_changes()
+          require('oil').close()
+        end
+      end,
       ['<ESC>'] = { 'actions.close', mode = 'n' },
       ['<C-l>'] = 'actions.refresh',
       ['-'] = { 'actions.parent', mode = 'n' },

@@ -1,39 +1,82 @@
 return {
-  'folke/persistence.nvim',
-  event = 'BufReadPre', -- start tracking as soon as a file is read
+  'olimorris/persisted.nvim',
+  lazy = false,
   opts = {
-    -- you can leave this empty to use defaults
-    -- dir = vim.fn.stdpath("state") .. "/sessions/",
-    -- options = { "buffers", "curdir", "tabpages", "winsize" },
+    autostart = true, -- Automatically start the plugin on load?
+    ---@type fun(): boolean
+    should_save = function()
+      return true
+    end,
+
+    save_dir = vim.fn.expand(vim.fn.stdpath 'data' .. '/sessions/'), -- Directory where session files are saved
+
+    follow_cwd = true, -- Change the session file to match any change in the cwd?
+    use_git_branch = false, -- Include the git branch in the session file name?
+    autoload = true, -- Automatically load the session for the cwd on Neovim startup?
+
+    -- Function to run when `autoload = true` but there is no session to load
+    ---@type fun(): any
+    on_autoload_no_session = function() end,
+
+    allowed_dirs = {}, -- Table of dirs that the plugin will start and autoload from
+    ignored_dirs = {}, -- Table of dirs that are ignored for starting and autoloading
   },
   keys = {
     {
-      '<leader>Ps',
+      '<leader>Pr',
       function()
-        require('persistence').load()
+        require('persisted').load()
       end,
-      desc = 'Persistence: load session',
+      desc = 'persisted: load session',
     },
     {
-      '<leader>PS',
+      '<leader>Ps',
       function()
-        require('persistence').select()
+        require('persisted').select()
       end,
-      desc = 'Persistence: select session',
+      desc = 'persisted: select session',
     },
     {
       '<leader>Pl',
       function()
-        require('persistence').load { last = true }
+        require('persisted').load { last = true }
       end,
-      desc = 'Persistence: load last session',
+      desc = 'persisted: load last session',
+    },
+    {
+      '<leader>PS',
+      function()
+        require('persisted').stop()
+      end,
+      desc = 'Persisted: Stop recording a session',
+    },
+    {
+      '<leader>Pa',
+      function()
+        require('persisted').stop()
+      end,
+      desc = 'Persisted: Start recording a session',
+    },
+    {
+      '<leader>PD',
+      function()
+        require('persisted').delete()
+      end,
+      desc = 'Persisted: Delete a session from a list',
     },
     {
       '<leader>Pd',
       function()
-        require('persistence').stop()
+        require('persisted').delete_current()
       end,
-      desc = 'Persistence: stop saving',
+      desc = 'Persisted: Delete the current session',
+    },
+    {
+      '<leader>Pt',
+      function()
+        require('persisted').toggle()
+      end,
+      desc = 'Persisted: Determines whether to load, start or stop a session',
     },
   },
 }

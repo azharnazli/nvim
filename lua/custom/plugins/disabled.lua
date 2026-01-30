@@ -1,4 +1,4 @@
 return {
   -- Example
-  -- { 'code-biscuits/nvim-biscuits', enabled = false },
+  -- { 'fedepujol/move.nvim', enabled = true },
 }

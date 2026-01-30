@@ -1,65 +1,19 @@
 require 'tmux_keybind'
-local keymap_helper = require 'kaymaps_helper'
+local keymap_helper = require 'keymaps_helper'
 
-vim.keymap.set('n', '<leader>pr', function()
-  local project_dir = vim.fn.getcwd()
-  local script = project_dir .. '/run.sh'
+vim.keymap.set(
+  'n',
+  '<leader>pr',
+  keymap_helper.run_project,
+  { desc = 'Project: Run Project' }
+)
 
-  if vim.fn.filereadable(script) == 0 then
-    vim.notify('No run.sh in project', vim.log.levels.ERROR)
-    return
-  end
-
-  vim.fn.jobstart({ 'zsh', script }, {
-    stdout_buffered = true,
-    stderr_buffered = true,
-    on_stdout = function(_, data)
-      if data then
-        vim.notify(table.concat(data, '\n'), vim.log.levels.INFO)
-      end
-    end,
-    on_stderr = function(_, data)
-      if data then
-        vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
-      end
-    end,
-  })
-end, { desc = 'Project: Run Project' })
-
-vim.keymap.set('n', '<leader>pR', function()
-  local project_dir = vim.fn.getcwd()
-  local script = project_dir .. '/run.sh'
-
-  if vim.fn.filereadable(script) == 0 then
-    vim.notify('No run.sh in project', vim.log.levels.ERROR)
-    return
-  end
-
-  if not vim.env.TMUX or vim.env.TMUX == '' then
-    vim.notify('Not inside a tmux session', vim.log.levels.ERROR)
-    return
-  end
-
-  local out = vim.fn.system {
-    'tmux',
-    'split-window',
-    '-h',
-    '-p',
-    '35',
-    '-c',
-    project_dir,
-    'zsh',
-    '-c',
-    script .. '; exec zsh',
-  }
-
-  if vim.v.shell_error ~= 0 then
-    vim.notify(
-      'tmux split-window failed: ' .. (out or ''),
-      vim.log.levels.ERROR
-    )
-  end
-end, { desc = 'Project: Run in tmux right 35%' })
+vim.keymap.set(
+  'n',
+  '<leader>pR',
+  keymap_helper.tmux_pane_right,
+  { desc = 'Project: Run in tmux right 35%' }
+)
 
 vim.keymap.set(
   'n',
@@ -109,19 +63,12 @@ vim.keymap.set('n', '<leader>bd', function()
   require('mini.bufremove').delete()
 end, { desc = 'Close Current Buffer' })
 
-vim.keymap.set('n', '<leader>bD', function()
-  local current = vim.api.nvim_get_current_buf()
-  local bufs = vim.api.nvim_list_bufs()
-
-  for _, buf in ipairs(bufs) do
-    local is_term = vim.api.nvim_buf_get_name(buf):match 'toggleterm'
-    local is_neo = vim.api.nvim_buf_get_name(buf):match 'neo%-tree'
-
-    if buf ~= current and not is_term and not is_neo then
-      vim.api.nvim_buf_delete(buf, { force = true })
-    end
-  end
-end, { desc = 'Close all buffers except current' })
+vim.keymap.set(
+  'n',
+  '<leader>bD',
+  function() end,
+  { desc = 'Close all buffers except current' }
+)
 
 vim.keymap.set('n', '<leader>bl', function()
   vim.cmd('e ' .. vim.g.last_path)
@@ -167,7 +114,20 @@ vim.keymap.set(
 vim.keymap.set('n', ']b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
 vim.keymap.set('n', '[b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
 
-vim.keymap.set('n', '<A-j>', ':m .+1<CR>==') -- move line up(n)
+vim.keymap.set('n', '<A-j>', function()
+  vim.cmd 'm .+1'
+end, { desc = 'Move: move current line down' })
+
+vim.keymap.set('n', '<A-k>', function()
+  vim.cmd 'm .-2'
+end, { desc = 'Move: move current line down' })
+vim.keymap.set('v', '<A-j>', function()
+  vim.cmd "m '>+1"
+end, { desc = 'Move: move current line down' })
+vim.keymap.set('v', '<A-k>', function()
+  vim.cmd "m '<-2"
+end, { desc = 'Move: move current block down' })
+
 vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
 vim.keymap.set('v', '<A-j>', '') -- move line up(v)
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
@@ -242,26 +202,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   ),
   callback = function()
     vim.highlight.on_yank()
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'qf', -- Trigger only in Quickfix windows
-  callback = function()
-    vim.keymap.set('n', '<leader>uq', function()
-      local old_text = vim.fn.input 'Text to replace: '
-      if old_text == '' then
-        print 'No text provided to replace.'
-        return
-      end
-      local new_text = vim.fn.input 'Replace with: '
-
-      local qlist = vim.fn.getqflist()
-      for _, item in ipairs(qlist) do
-        item.text = item.text:gsub(old_text, new_text) -- Replace old_text with new_text
-      end
-      vim.fn.setqflist(qlist, 'r') -- Update the Quickfix list
-      print 'Quickfix list updated!'
-    end, { buffer = true, desc = 'Update Quickfix list with input text' })
   end,
 })

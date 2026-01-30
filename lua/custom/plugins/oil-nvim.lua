@@ -60,7 +60,25 @@ return {
         oil.discard_all_changes()
         oil.close()
       end,
-      ['<ESC>'] = { 'actions.close', mode = 'n' },
+      ['<ESC>'] = function()
+        local oil = require 'oil'
+
+        if vim.bo.modified then
+          local choice = vim.fn.confirm('Save changes?', '&Yes\n&No', 2)
+          if choice == 1 then
+            oil.save({}, function(err)
+              if not err then
+                oil.close()
+              end
+            end)
+            return
+          end
+        end
+
+        -- Fallthrough: If not modified OR user chose "No"
+        oil.discard_all_changes()
+        oil.close()
+      end,
       ['<C-l>'] = 'actions.refresh',
       ['-'] = { 'actions.parent', mode = 'n' },
       ['_'] = { 'actions.open_cwd', mode = 'n' },

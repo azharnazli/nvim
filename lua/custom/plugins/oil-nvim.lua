@@ -42,21 +42,23 @@ return {
       ['<C-p>'] = 'actions.preview',
       ['<C-c>'] = { 'actions.close', mode = 'n' },
       ['q'] = function()
+        local oil = require 'oil'
+
         if vim.bo.modified then
           local choice = vim.fn.confirm('Save changes?', '&Yes\n&No', 2)
-          if choice == 1 then -- Yes
-            require('oil').save({}, function(err)
+          if choice == 1 then
+            oil.save({}, function(err)
               if not err then
-                require('oil').close()
+                oil.close()
               end
             end)
-          elseif choice == 2 then -- No (Discard)
-            require('oil').discard_all_changes()
-            require('oil').close()
+            return
           end
-          require('oil').discard_all_changes()
-          require('oil').close()
         end
+
+        -- Fallthrough: If not modified OR user chose "No"
+        oil.discard_all_changes()
+        oil.close()
       end,
       ['<ESC>'] = { 'actions.close', mode = 'n' },
       ['<C-l>'] = 'actions.refresh',

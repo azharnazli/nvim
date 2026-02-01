@@ -11,6 +11,7 @@ require('lazy').setup({
   require 'core/gitsigns',
   require 'core/indent-line',
   require 'core/debug',
+  require 'core.neotree',
   require 'core.todo_comments',
 
   { import = 'custom/plugins' },

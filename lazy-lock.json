@@ -20,7 +20,7 @@
   "lazygit.nvim": { "branch": "main", "commit": "a04ad0dbc725134edbee3a5eea29290976695357" },
   "lsp_lines.nvim": { "branch": "main", "commit": "a92c755f182b89ea91bd8a6a2227208026f27b4d" },
   "lua-inspector": { "branch": "main", "commit": "87d6650c5dcc3fa73c88e7c1a2b895de626c579d" },
-  "markview.nvim": { "branch": "main", "commit": "ffb465f7b99135eb7676bd2edf53803acc97dcc6" },
+  "markview.nvim": { "branch": "main", "commit": "86ce3fe623fe54319a1f1d4ce6b861219c95b151" },
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
   "mason.nvim": { "branch": "main", "commit": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65" },

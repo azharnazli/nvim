@@ -120,5 +120,23 @@ return {
   },
   config = function(_, opts)
     require('fzf-lua').setup(opts)
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'fzf',
+      callback = function()
+        -- These mappings force Neovim to send the keys to the terminal (fzf)
+        -- instead of triggering your global "move line" or editing maps.
+        vim.keymap.set('t', '<A-j>', '<A-j>', { buffer = true, nowait = true })
+        vim.keymap.set('t', '<A-k>', '<A-k>', { buffer = true, nowait = true })
+      end,
+    })
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'fzf',
+      callback = function()
+        -- These mappings force Neovim to send the keys to the terminal (fzf)
+        -- instead of triggering your global "move line" or editing maps.
+        vim.keymap.set('t', '<A-j>', '<A-j>', { buffer = true, nowait = true })
+        vim.keymap.set('t', '<A-k>', '<A-k>', { buffer = true, nowait = true })
+      end,
+    })
   end,
 }

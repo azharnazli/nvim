@@ -66,7 +66,7 @@ end, { desc = 'Close Current Buffer' })
 vim.keymap.set(
   'n',
   '<leader>bD',
-  function() end,
+  keymap_helper.close_other_buffer,
   { desc = 'Close all buffers except current' }
 )
 

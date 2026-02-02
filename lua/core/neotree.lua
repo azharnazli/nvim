@@ -181,18 +181,14 @@ return {
         position = 'right',
         width = 50,
         mappings = {
-          ['<S-CR>'] = 'system_open',
+          ['l'] = 'child_or_open',
           ['<space>'] = 'none',
           ['[b'] = 'prev_source',
           [']b'] = 'next_source',
           O = 'system_open',
           Y = 'copy_selector',
           h = 'parent_or_close',
-          l = 'child_or_open',
           f = 'none',
-          ['<Leader>e'] = function()
-            vim.cmd 'Neotree toggle'
-          end,
         },
         fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
           ['<C-J>'] = 'move_cursor_down',
@@ -215,5 +211,12 @@ return {
         },
       },
     }
+
+    vim.keymap.set(
+      'n',
+      '<leader>e',
+      '<cmd>Neotree toggle<cr>',
+      { desc = 'Toggle Neotree' }
+    )
   end,
 }

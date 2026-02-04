@@ -39,6 +39,7 @@ return {
 
       spec = {
         { '<leader>l', group = 'Lsp' },
+        { '<leader>d', group = 'Debugger' },
         { '<leader>f', group = 'Find' },
         { '<leader>w', group = 'Workspace' },
         { '<leader>h', group = 'Git', mode = { 'n', 'v' } },

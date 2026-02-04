@@ -74,11 +74,6 @@ vim.keymap.set('n', '<leader>bl', function()
   vim.cmd('e ' .. vim.g.last_path)
 end, { desc = 'Resume last close buffer' })
 
-vim.keymap.set('n', '<leader>nr', function()
-  keymap_helper.reload_config()
-  print 'Config Reloaded!!'
-end, { desc = 'NEOVIM: reload neovim config' })
-
 vim.keymap.set('n', '<C-s>', '<cmd>:w<cr>', { desc = 'Save current file' })
 vim.keymap.set(
   'n',

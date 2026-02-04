@@ -10,7 +10,7 @@ return {
     },
     keys = {
       {
-        '<leader>lf',
+        '<leader>li',
         function()
           local inlay_hints = require 'inlay-hints'
           -- Try different possible function names

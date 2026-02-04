@@ -1,6 +1,5 @@
 local m = {}
 
--- Toggel Qf
 m.toggle_quickfix = function()
   local windows = vim.fn.getwininfo()
   for _, win in pairs(windows) do
@@ -10,22 +9,6 @@ m.toggle_quickfix = function()
     end
   end
   vim.cmd.copen()
-end
-
--- Reload Neovim Config
-m.reload_config = function()
-  local namespace = 'user' -- e.g. lua/user/*.lua
-
-  for name, _ in pairs(package.loaded) do
-    if name:match('^' .. namespace) then
-      package.loaded[name] = nil
-    end
-  end
-
-  local init = vim.fn.stdpath 'config' .. '/init.lua'
-  dofile(init)
-
-  vim.notify('Neovim config reloaded!', vim.log.levels.INFO)
 end
 
 vim.api.nvim_create_autocmd('User', {
@@ -55,58 +38,51 @@ end
 
 -- Run Project
 m.run_project = function()
-  local project_dir = vim.fn.getcwd()
-  local script = project_dir .. '/run.sh'
+  local script = vim.fn.getcwd() .. '/run.sh'
+  local Terminal = require('toggleterm.terminal').Terminal
 
-  if vim.fn.filereadable(script) == 0 then
-    vim.notify('No run.sh in project', vim.log.levels.ERROR)
-    return
+  local width = math.floor(vim.o.columns * 0.4)
+
+  local term = Terminal:new {
+    cmd = 'bash ' .. vim.fn.fnameescape(script),
+    direction = 'vertical', -- right/left depends on splitright
+    close_on_exit = false,
+    name = 'run_project',
+  }
+
+  vim.opt.splitright = true -- ensure it opens on the right
+  term:open()
+
+  -- hard-force the width after opening
+  if term.window and vim.api.nvim_win_is_valid(term.window) then
+    vim.api.nvim_win_set_width(term.window, width)
   end
-
-  vim.fn.jobstart({ 'zsh', script }, {
-    stdout_buffered = true,
-    stderr_buffered = true,
-    on_stdout = function(_, data)
-      if data then
-        vim.notify(table.concat(data, '\n'), vim.log.levels.INFO)
-      end
-    end,
-    on_stderr = function(_, data)
-      if data then
-        vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
-      end
-    end,
-  })
 end
 
 -- Run Project in tmux right 35%
 m.tmux_pane_right = function()
   local project_dir = vim.fn.getcwd()
   local script = project_dir .. '/run.sh'
-
   if vim.fn.filereadable(script) == 0 then
     vim.notify('No run.sh in project', vim.log.levels.ERROR)
     return
   end
-
   if not vim.env.TMUX or vim.env.TMUX == '' then
     vim.notify('Not inside a tmux session', vim.log.levels.ERROR)
     return
   end
-
   local out = vim.fn.system {
     'tmux',
     'split-window',
     '-h',
     '-p',
-    '35',
+    '30',
     '-c',
     project_dir,
     'zsh',
     '-c',
-    script .. '; exec zsh',
+    script .. '; read -k1 "?Press any key to close..."; exit',
   }
-
   if vim.v.shell_error ~= 0 then
     vim.notify(
       'tmux split-window failed: ' .. (out or ''),

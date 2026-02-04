@@ -94,7 +94,11 @@ return {
     },
     {
       '<leader>fo',
-      '<cmd>lua require("fzf-lua").oldfiles()<cr>',
+      function()
+        require('fzf-lua').oldfiles {
+          cwd_only = true,
+        }
+      end,
       desc = 'Recent files',
     },
     {
@@ -113,9 +117,19 @@ return {
       desc = 'Keymaps',
     },
     {
-      '<leader>fr',
+      '<leader>f<CR>',
       '<cmd>lua require("fzf-lua").resume()<cr>',
       desc = 'Resume search',
+    },
+    {
+      '<leader>lD',
+      '<cmd>lua require("fzf-lua").diagnostics_document()<cr>',
+      desc = 'Document Diagnostics',
+    },
+    {
+      '<leader>lW',
+      '<cmd>lua require("fzf-lua").diagnostics_document()<cr>',
+      desc = 'Document Diagnostics',
     },
   },
   config = function(_, opts)

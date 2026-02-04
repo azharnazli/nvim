@@ -3,7 +3,7 @@ return {
   config = function()
     require('lsp_lines').setup()
     local enable = false
-    vim.keymap.set('n', '<leader>lw', function()
+    vim.keymap.set('n', '<leader>lf', function()
       enable = not enable
     end, { desc = 'Toggle lsp line' })
 

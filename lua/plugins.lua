@@ -11,11 +11,13 @@ require('lazy').setup({
   require 'core/gitsigns',
   require 'core/indent-line',
   require 'core/debug',
-  -- require 'core.neotree',
-  require 'core.todo_comments',
+  require 'core/todo_comments',
 
   { import = 'custom/plugins' },
 }, {
+  change_detection = {
+    notify = false,
+  },
   ui = {
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
@@ -48,3 +50,5 @@ vim.api.nvim_create_autocmd('FocusGained', {
     end
   end,
 })
+
+require 'core.tmux'

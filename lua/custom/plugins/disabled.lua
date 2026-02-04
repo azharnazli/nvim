@@ -1,5 +1,5 @@
 return {
   -- Example
   -- { 'fedepujol/move.nvim', enabled = true },
-  -- { 'stevearc/oil.nvim', enabled = false },
+  { 'zeioth/garbage-day.nvim', enabled = false },
 }

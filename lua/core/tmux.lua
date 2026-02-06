@@ -1,4 +1,8 @@
 if vim.env.TMUX then
+  local is_git_editor = false
+
+  local args = vim.fn.argv()
+
   local base_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
   if base_name == 'azharnazli' then
     base_name = 'zsh'
@@ -53,19 +57,18 @@ if vim.env.TMUX then
   end
 
   vim.fn.system { 'tmux', 'rename-window', final_name }
-
-  vim.api.nvim_create_autocmd('ExitPre', {
-    callback = function()
-      local window_count = tonumber(
-        vim.fn.trim(
-          vim.fn.system { 'tmux', 'display-message', '-p', '#{session_windows}' }
-        )
-      )
-      if window_count and window_count > 1 then
-        vim.fn.system { 'tmux', 'kill-pane' }
-      else
-        vim.fn.system { 'tmux', 'rename-window', 'zsh' }
-      end
-    end,
-  })
+  --   vim.api.nvim_create_autocmd('ExitPre', {
+  --     callback = function()
+  --       local window_count = tonumber(
+  --         vim.fn.trim(
+  --           vim.fn.system { 'tmux', 'display-message', '-p', '#{session_windows}' }
+  --         )
+  --       )
+  --       if window_count and window_count > 1 then
+  --         vim.fn.system { 'tmux', 'kill-pane' }
+  --       else
+  --         vim.fn.system { 'tmux', 'rename-window', 'zsh' }
+  --       end
+  --     end,
+  --   })
 end

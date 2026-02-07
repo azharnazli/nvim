@@ -1,7 +1,7 @@
 if vim.env.TMUX then
-  local is_git_editor = false
-
-  local args = vim.fn.argv()
+  if #vim.api.nvim_list_uis() == 0 then
+    return
+  end
 
   local base_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
   if base_name == 'azharnazli' then
@@ -11,22 +11,31 @@ if vim.env.TMUX then
   local current_id = vim.fn.trim(
     vim.fn.system { 'tmux', 'display-message', '-p', '#{window_id}' }
   )
+  if vim.v.shell_error ~= 0 or current_id == '' then
+    return
+  end
+
   local tmux_output = vim.fn.system {
     'tmux',
     'list-windows',
     '-F',
     '#{window_name} #{window_id}',
   }
+  if vim.v.shell_error ~= 0 or tmux_output == '' then
+    return
+  end
 
   local target_id = nil
   local taken_names = {}
 
   for line in tmux_output:gmatch '[^\r\n]+' do
     local name, id = line:match '^(%S+)%s+(%S+)$'
-    taken_names[name] = true
+    if name and id then
+      taken_names[name] = true
 
-    if name == base_name and id ~= current_id then
-      target_id = id
+      if name == base_name and id ~= current_id then
+        target_id = id
+      end
     end
   end
 

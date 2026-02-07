@@ -1,5 +1,16 @@
 return {
   'mfussenegger/nvim-dap',
+  lazy = true,
+  cmd = {
+    'DapContinue',
+    'DapToggleBreakpoint',
+    'DapClearBreakpoints',
+    'DapTerminate',
+    'DapStepInto',
+    'DapStepOver',
+    'DapStepOut',
+    'DapREPLToggle',
+  },
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'nvim-neotest/nvim-nio',

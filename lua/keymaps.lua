@@ -8,6 +8,17 @@ vim.keymap.set(
   { desc = 'Project: Run Project' }
 )
 
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-c>', function()
+  if _G.vim_state.hard_mode then
+    return
+  end
+  return '<Esc>'
+end, { expr = true, silent = true })
+
+vim.keymap.set('n', '<leader>nX', function()
+  _G.vim_state.hard_mode = not _G.vim_state.hard_mode
+end, { desc = 'Toggle Hardmode' })
+
 vim.keymap.set(
   'n',
   '<leader>pR',

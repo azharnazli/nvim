@@ -75,7 +75,7 @@ return {
           gitsigns.preview_hunk,
           { desc = 'git preview hunk' }
         )
-        map('n', '<leader>gl', gitsigns.blame_line, { desc = 'git blame line' })
+        map('n', '<leader>gb', gitsigns.blame_line, { desc = 'git blame line' })
         -- map(
         --   'n',
         --   '<leader>gd',

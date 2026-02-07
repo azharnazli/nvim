@@ -3,7 +3,6 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = function(_, opts)
     local fzf = require 'fzf-lua'
-    local config = fzf.config
     local actions = fzf.actions
 
     -- keep your existing opts table if Lazy already passed one
@@ -59,9 +58,6 @@ return {
         ['alt-q'] = actions.file_sel_to_qf, -- manual “send selected to QF”
       },
     })
-
-    -- finally, pass everything to fzf-lua
-    fzf.setup(opts)
 
     return opts
   end,
@@ -134,15 +130,6 @@ return {
   },
   config = function(_, opts)
     require('fzf-lua').setup(opts)
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = 'fzf',
-      callback = function()
-        -- These mappings force Neovim to send the keys to the terminal (fzf)
-        -- instead of triggering your global "move line" or editing maps.
-        vim.keymap.set('t', '<A-j>', '<A-j>', { buffer = true, nowait = true })
-        vim.keymap.set('t', '<A-k>', '<A-k>', { buffer = true, nowait = true })
-      end,
-    })
     vim.api.nvim_create_autocmd('FileType', {
       pattern = 'fzf',
       callback = function()

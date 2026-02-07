@@ -37,16 +37,33 @@ require('lazy').setup({
   },
 })
 
+local focus_refresh_group = vim.api.nvim_create_augroup(
+  'user-focus-refresh',
+  { clear = true }
+)
+local last_focus_refresh = 0
+
 vim.api.nvim_create_autocmd('FocusGained', {
+  group = focus_refresh_group,
   callback = function()
-    local nt_ok, nt_manager = pcall(require, 'neo-tree.sources.manager')
-    if nt_ok then
-      nt_manager.refresh 'filesystem'
+    local now = vim.uv.now()
+    if now - last_focus_refresh < 1500 then
+      return
+    end
+    last_focus_refresh = now
+
+    if package.loaded['neo-tree.sources.manager'] then
+      local nt_ok, nt_manager = pcall(require, 'neo-tree.sources.manager')
+      if nt_ok then
+        nt_manager.refresh 'filesystem'
+      end
     end
 
-    local gs_ok, gitsigns = pcall(require, 'gitsigns')
-    if gs_ok then
-      gitsigns.refresh()
+    if package.loaded.gitsigns then
+      local gs_ok, gitsigns = pcall(require, 'gitsigns')
+      if gs_ok then
+        gitsigns.refresh()
+      end
     end
   end,
 })

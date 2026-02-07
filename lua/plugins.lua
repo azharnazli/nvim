@@ -52,13 +52,6 @@ vim.api.nvim_create_autocmd('FocusGained', {
     end
     last_focus_refresh = now
 
-    if package.loaded['neo-tree.sources.manager'] then
-      local nt_ok, nt_manager = pcall(require, 'neo-tree.sources.manager')
-      if nt_ok then
-        nt_manager.refresh 'filesystem'
-      end
-    end
-
     if package.loaded.gitsigns then
       local gs_ok, gitsigns = pcall(require, 'gitsigns')
       if gs_ok then

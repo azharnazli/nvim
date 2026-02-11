@@ -28,9 +28,8 @@ m.close_other_buffer = function()
 
   for _, buf in ipairs(bufs) do
     local is_term = vim.api.nvim_buf_get_name(buf):match 'toggleterm'
-    local is_neo = vim.api.nvim_buf_get_name(buf):match 'neo%-tree'
 
-    if buf ~= current and not is_term and not is_neo then
+    if buf ~= current and not is_term then
       vim.api.nvim_buf_delete(buf, { force = true })
     end
   end

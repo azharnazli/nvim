@@ -10,7 +10,18 @@ vim.keymap.set(
 
 vim.keymap.set('n', '<leader>fG', function()
   vim.cmd 'GitChangedFzf'
-end, { desc = 'Project: Find Changed' })
+end, { desc = 'Find: Changed Update File' })
+
+vim.keymap.set({ 'n', 'i', 'v' }, '<C-c>', function()
+  if _G.vim_state.hard_mode then
+    return
+  end
+  return '<Esc>'
+end, { expr = true, silent = true })
+
+vim.keymap.set('n', '<leader>nX', function()
+  _G.vim_state.hard_mode = not _G.vim_state.hard_mode
+end, { desc = 'Toggle Hardmode' })
 
 vim.keymap.set(
   'n',

@@ -1,5 +1,6 @@
 return {
   'stevearc/oil.nvim',
+  cmd = { 'Oil' },
   ---@module 'oil'
   ---@type oil.SetupOpts
   opts = {
@@ -181,12 +182,9 @@ return {
   keys = {
     {
       '<leader>e',
-      function()
-        require('oil').open()
-      end,
+      '<cmd>Oil<cr>',
       desc = 'Open parent directory',
     },
   },
   dependencies = { { 'nvim-mini/mini.icons', opts = {} } },
-  lazy = false,
 }

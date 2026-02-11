@@ -1,5 +1,12 @@
 return {
   'williamboman/mason.nvim',
+  cmd = {
+    'Mason',
+    'MasonInstall',
+    'MasonUninstall',
+    'MasonUpdate',
+    'MasonLog',
+  },
   build = ':MasonUpdate',
 
   dependencies = {
@@ -18,7 +25,7 @@ return {
         'stylua',
         'prettierd',
       },
-      run_on_start = true,
+      run_on_start = false,
     }
   end,
 }

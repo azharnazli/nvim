@@ -9,6 +9,8 @@ vim.g.omni_sql_no_default_maps = 0
 vim.opt.fileformat = 'unix'
 vim.opt.fileformats = 'unix,dos'
 
+require 'global'
+
 require 'options'
 
 require 'keymaps'

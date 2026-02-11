@@ -8,6 +8,10 @@ vim.keymap.set(
   { desc = 'Project: Run Project' }
 )
 
+vim.keymap.set('n', '<leader>fG', function()
+  vim.cmd 'GitChangedFzf'
+end, { desc = 'Project: Find Changed' })
+
 vim.keymap.set(
   'n',
   '<leader>pR',

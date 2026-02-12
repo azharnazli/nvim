@@ -1,6 +1,7 @@
 return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    lazy =false,
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -22,7 +23,7 @@ return {
         'nix',
       },
       -- Autoinstall languages that are not installed
-      auto_install = true,
+      auto_install = false,
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
@@ -41,6 +42,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = {}, -- or a list: { 'lua', 'vim', 'typescript', ... }

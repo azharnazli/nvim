@@ -1,6 +1,6 @@
 return {
   'olimorris/persisted.nvim',
-  lazy = false,
+  event = 'VimEnter',
   opts = {
     autostart = true, -- Automatically start the plugin on load?
     ---@type fun(): boolean

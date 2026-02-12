@@ -33,4 +33,16 @@ vim.opt.pumheight = 10
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 vim.opt.fileformat = 'unix'
-vim.opt.clipboard = 'unnamedplus'
+
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {
+    ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+  },
+}
+

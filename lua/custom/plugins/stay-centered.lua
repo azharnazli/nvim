@@ -1,6 +1,6 @@
 return {
   'arnamak/stay-centered.nvim',
-  lazy = false,
+  event = 'VeryLazy',
   opts = {
     skip_filetypes = { 'lua', 'typescript' },
   },

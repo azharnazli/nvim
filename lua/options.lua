@@ -1,7 +1,7 @@
 vim.opt.number = true
 vim.opt.laststatus = 3
 vim.opt.relativenumber = true
-vim.opt.mouse = 'a'
+vim.opt.mouse = ''
 vim.opt.showmode = false
 vim.opt.breakindent = true
 vim.opt.undofile = true

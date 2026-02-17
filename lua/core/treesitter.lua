@@ -1,7 +1,6 @@
 return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    event = { 'BufReadPost', 'BufNewFile' },
     build = ':TSUpdate',
     main = 'nvim-treesitter.config', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -9,8 +8,13 @@ return {
       ensure_installed = {
         'bash',
         'c',
+        'cpp',
         'diff',
+        'go',
         'html',
+        'odin',
+        'python',
+        'rust',
         'lua',
         'luadoc',
         'markdown',
@@ -19,11 +23,13 @@ return {
         'vim',
         'vimdoc',
         'javascript',
+        'typescript',
+        'tsx',
         'zig',
         'nix',
       },
       -- Autoinstall languages that are not installed
-      auto_install = false,
+      auto_install = true,
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
@@ -42,7 +48,6 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       require('nvim-treesitter.config').setup {
         ensure_installed = {}, -- or a list: { 'lua', 'vim', 'typescript', ... }
@@ -85,7 +90,7 @@ return {
             -- mapping query_strings to modes.
             selection_modes = {
               ['@parameter.outer'] = 'v', -- charwise
-              ['@function.outer'] = 'V', -- linewise
+              ['@function.outer'] = 'V',  -- linewise
               ['@class.outer'] = '<c-v>', -- blockwise
             },
             -- If you set this to `true` (default is `false`) then any textobject is

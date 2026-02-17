@@ -1,8 +1,21 @@
 -- lua/tmux-keymap.lua
 
 vim.keymap.set('n', '<leader>nl', function()
-  vim.fn.jobstart { 'tmux', 'split-window', '-h', '-p', '20' }
+  vim.fn.jobstart { 'tmux', 'split-window', '-h', '-p', '35' }
 end, { desc = 'tmux: right 20%' })
+
+vim.keymap.set('n', '<leader>nc', function()
+  vim.fn.jobstart {
+    "tmux",
+    "split-window",
+    "-h",
+    "-p",
+    "35",
+    "-c",
+    vim.fn.getcwd(),
+    'codex'
+  }
+end, { desc = 'tmux: split right, cwd, run codex' })
 
 vim.keymap.set('n', '<leader>nf', function()
   vim.fn.jobstart { 'tmux', 'split-window', '-h', '-p', '50' }

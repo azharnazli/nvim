@@ -1,3 +1,4 @@
+local oil_first = true
 return {
   'stevearc/oil.nvim',
   cmd = { 'Oil' },
@@ -182,7 +183,14 @@ return {
   keys = {
     {
       '<leader>e',
-      '<cmd>Oil<cr>',
+      function()
+        if oil_first then
+          oil_first = false
+          vim.cmd 'Oil .' -- first time: cwd
+        else
+          vim.cmd 'Oil' -- later: normal behavior
+        end
+      end,
       desc = 'Open parent directory',
     },
   },

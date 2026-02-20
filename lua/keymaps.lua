@@ -8,6 +8,10 @@ vim.keymap.set(
   { desc = 'Project: Run Project' }
 )
 
+vim.keymap.set('n', '<leader>fG', function()
+  vim.cmd 'GitChangedFzf'
+end, { desc = 'Find: Changed Update File' })
+
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-c>', function()
   if _G.vim_state.hard_mode then
     return

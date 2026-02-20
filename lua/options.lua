@@ -46,3 +46,4 @@ vim.g.clipboard = {
   },
 }
 
+vim.opt.clipboard = "unnamedplus"

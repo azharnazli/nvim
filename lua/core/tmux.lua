@@ -1,4 +1,8 @@
 if vim.env.TMUX then
+  if _G.vim_state and _G.vim_state.tmux_duplicate == false then
+    return
+  end
+
   if #vim.api.nvim_list_uis() == 0 then
     return
   end

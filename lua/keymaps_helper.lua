@@ -1,5 +1,29 @@
 local m = {}
 
+m.remove_ansi_codes = function()
+  local view = vim.fn.winsaveview()
+
+  vim.cmd [[
+    silent! keeppatterns %s/\%x1b\[[0-9;]*[A-Za-z]//ge
+  ]]
+
+  vim.fn.winrestview(view)
+end
+
+m.clean_print_log = function()
+  local view = vim.fn.winsaveview()
+
+  vim.cmd [[
+    silent! keeppatterns %s/\r//ge
+  ]]
+
+  vim.cmd [[
+    silent! keeppatterns %s/\%x1b\[[0-9;]*[A-Za-z]//ge
+  ]]
+
+  vim.fn.winrestview(view)
+end
+
 m.toggle_quickfix = function()
   local windows = vim.fn.getwininfo()
   for _, win in pairs(windows) do

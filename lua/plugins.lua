@@ -37,10 +37,8 @@ require('lazy').setup({
   },
 })
 
-local focus_refresh_group = vim.api.nvim_create_augroup(
-  'user-focus-refresh',
-  { clear = true }
-)
+local focus_refresh_group =
+  vim.api.nvim_create_augroup('user-focus-refresh', { clear = true })
 local last_focus_refresh = 0
 
 vim.api.nvim_create_autocmd('FocusGained', {

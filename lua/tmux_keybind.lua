@@ -6,14 +6,14 @@ end, { desc = 'tmux: right 20%' })
 
 vim.keymap.set('n', '<leader>nc', function()
   vim.fn.jobstart {
-    "tmux",
-    "split-window",
-    "-h",
-    "-p",
-    "35",
-    "-c",
+    'tmux',
+    'split-window',
+    '-h',
+    '-p',
+    '35',
+    '-c',
     vim.fn.getcwd(),
-    'codex'
+    'codex',
   }
 end, { desc = 'tmux: split right, cwd, run codex' })
 

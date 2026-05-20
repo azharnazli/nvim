@@ -214,3 +214,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.keymap.set(
+  'n',
+  '<leader>pa',
+  keymap_helper.remove_ansi_codes,
+  { desc = 'Print: Remove ANSI codes' }
+)
+
+vim.keymap.set(
+  'n',
+  '<leader>pc',
+  keymap_helper.clean_print_log,
+  { desc = 'Print: Clean CR and ANSI codes' }
+)

@@ -91,7 +91,7 @@ return {
     {
       '<leader>fo',
       function()
-        require('fzf-lua').oldfiles {
+        require('fzf-lua').history {
           cwd_only = true,
         }
       end,

@@ -53,6 +53,9 @@ return {
     -- grep provider uses the same “file” actions by default,
     -- but you can override / make it explicit if you want:
     opts.grep = vim.tbl_deep_extend('force', opts.grep or {}, {
+      rg_opts = '--column --line-number --no-heading --color=always --smart-case '
+        .. '--glob !node_modules --glob !dist --glob !build --glob !.next '
+        .. '--glob !.git',
       actions = {
         ['default'] = actions.file_edit_or_qf, -- 1 result = jump, many = QF
         ['alt-q'] = actions.file_sel_to_qf, -- manual “send selected to QF”
@@ -124,12 +127,25 @@ return {
     },
     {
       '<leader>lW',
-      '<cmd>lua require("fzf-lua").diagnostics_document()<cr>',
-      desc = 'Document Diagnostics',
+      '<cmd>lua require("fzf-lua").diagnostics_workspace()<cr>',
+      desc = 'Workspace Diagnostics',
     },
   },
   config = function(_, opts)
     require('fzf-lua').setup(opts)
+    local missing = {}
+    for _, bin in ipairs { 'fzf', 'rg', 'fd' } do
+      if vim.fn.executable(bin) == 0 then
+        table.insert(missing, bin)
+      end
+    end
+    if #missing > 0 then
+      vim.notify(
+        'fzf-lua: missing required binaries: ' .. table.concat(missing, ', ')
+          .. '. Install with: sudo apt install fzf ripgrep fd-find',
+        vim.log.levels.WARN
+      )
+    end
     vim.api.nvim_create_autocmd('FileType', {
       pattern = 'fzf',
       callback = function()

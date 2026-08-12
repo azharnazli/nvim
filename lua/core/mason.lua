@@ -33,7 +33,6 @@ return {
         'prettierd',
         'tailwindcss-language-server',
         'vtsls',
-        'zls',
       },
       run_on_start = true,
       auto_update = true,

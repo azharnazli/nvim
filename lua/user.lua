@@ -1,7 +1,7 @@
 vim.api.nvim_create_user_command('GitChanged', function()
   local result = vim
-    .system({ 'git', 'diff', '--name-only', '--diff-filter=d' }, { text = true })
-    :wait()
+      .system({ 'git', 'diff', '--name-only', '--diff-filter=d' }, { text = true })
+      :wait()
 
   local files = vim.split(result.stdout, '\n', { trimempty = true })
 
@@ -19,8 +19,8 @@ end, {})
 
 vim.api.nvim_create_user_command('GitChangedFzf', function()
   local root = vim
-    .system({ 'git', 'rev-parse', '--show-toplevel' }, { text = true })
-    :wait().stdout
+      .system({ 'git', 'rev-parse', '--show-toplevel' }, { text = true })
+      :wait().stdout
   root = (root or ''):gsub('%s+$', '')
   if root == '' then
     return vim.notify('Not inside a git repo', vim.log.levels.WARN)
@@ -33,3 +33,8 @@ vim.api.nvim_create_user_command('GitChangedFzf', function()
     previewer = 'git_diff',
   }
 end, {})
+
+local isLuna = pcall(require, "luna")
+if isLuna then
+  vim.cmd.colorscheme('luna')
+end

@@ -1,194 +1,96 @@
 local oil_first = true
+
+local function normalize_path(path)
+  return vim.fs.normalize(path):gsub('\\', '/')
+end
+
+local function close_buffers_for_delete(action)
+  local util = require 'oil.util'
+  local fs = require 'oil.fs'
+  local scheme, path = util.parse_url(action.url)
+
+  if scheme ~= 'oil://' or not path then
+    return
+  end
+
+  local target = normalize_path(fs.posix_to_os_path(util.url_unescape(path)))
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_valid(bufnr) then
+      local buffer_path = normalize_path(vim.api.nvim_buf_get_name(bufnr))
+      local is_target = buffer_path == target
+      local is_child = action.entry_type == 'directory'
+        and buffer_path:sub(1, #target + 1) == target .. '/'
+
+      if is_target or is_child then
+        vim.api.nvim_buf_delete(bufnr, { force = true })
+      end
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd('User', {
+  group = vim.api.nvim_create_augroup('user-oil-actions', { clear = true }),
+  pattern = 'OilActionsPre',
+  callback = function(args)
+    for _, action in ipairs(args.data.actions or {}) do
+      if action.type == 'delete' then
+        close_buffers_for_delete(action)
+      end
+    end
+  end,
+})
+
+local function close_oil()
+  local oil = require 'oil'
+
+  if vim.bo.modified then
+    local choice = vim.fn.confirm('Save changes?', '&Yes\n&No', 2)
+    if choice == 1 then
+      oil.save({}, function(err)
+        if not err then
+          oil.close()
+        end
+      end)
+      return
+    end
+  end
+
+  oil.discard_all_changes()
+  oil.close()
+end
+
 return {
   'stevearc/oil.nvim',
-  cmd = { 'Oil' },
+  lazy = false,
   ---@module 'oil'
   ---@type oil.SetupOpts
   opts = {
-    default_file_explorer = true,
-    columns = {
-      'icon',
-    },
-    buf_options = {
-      buflisted = false,
-      bufhidden = 'hide',
-    },
-    win_options = {
-      wrap = false,
-      signcolumn = 'no',
-      cursorcolumn = false,
-      foldcolumn = '0',
-      spell = false,
-      list = false,
-      conceallevel = 3,
-      concealcursor = 'nvic',
-    },
-    delete_to_trash = false,
-    -- Skip confirmation for simple edits (add, delete, rename)
+    columns = { 'icon' },
     skip_confirm_for_simple_edits = true,
-    prompt_save_on_select_new_entry = true,
-    cleanup_delay_ms = 2000,
-    lsp_file_methods = {
-      enabled = true,
-      timeout_ms = 1000,
-      autosave_changes = false,
-    },
-    constrain_cursor = 'editable',
     watch_for_changes = true,
     keymaps = {
-      ['g?'] = { 'actions.show_help', mode = 'n' },
-      ['<CR>'] = 'actions.select',
-      ['<C-s>'] = { 'actions.select', opts = { vertical = true } },
-      ['<C-h>'] = { 'actions.select', opts = { horizontal = true } },
-      ['<C-t>'] = { 'actions.select', opts = { tab = true } },
-      ['<C-p>'] = 'actions.preview',
-      ['<C-c>'] = { 'actions.close', mode = 'n' },
-      ['q'] = function()
-        local oil = require 'oil'
-
-        if vim.bo.modified then
-          local choice = vim.fn.confirm('Save changes?', '&Yes\n&No', 2)
-          if choice == 1 then
-            oil.save({}, function(err)
-              if not err then
-                oil.close()
-              end
-            end)
-            return
-          end
-        end
-
-        -- Fallthrough: If not modified OR user chose "No"
-        oil.discard_all_changes()
-        oil.close()
-      end,
-      ['<ESC>'] = function()
-        local oil = require 'oil'
-
-        if vim.bo.modified then
-          local choice = vim.fn.confirm('Save changes?', '&Yes\n&No', 2)
-          if choice == 1 then
-            oil.save({}, function(err)
-              if not err then
-                oil.close()
-              end
-            end)
-            return
-          end
-        end
-
-        -- Fallthrough: If not modified OR user chose "No"
-        oil.discard_all_changes()
-        oil.close()
-      end,
-      ['<C-l>'] = 'actions.refresh',
-      ['-'] = { 'actions.parent', mode = 'n' },
-      ['_'] = { 'actions.open_cwd', mode = 'n' },
-      ['`'] = { 'actions.cd', mode = 'n' },
-      ['g~'] = { 'actions.cd', opts = { scope = 'tab' }, mode = 'n' },
-      ['gs'] = { 'actions.change_sort', mode = 'n' },
-      ['gx'] = 'actions.open_external',
-      ['g.'] = { 'actions.toggle_hidden', mode = 'n' },
-      ['g\\'] = { 'actions.toggle_trash', mode = 'n' },
-      -- User keymap
+      ['q'] = close_oil,
+      ['<ESC>'] = close_oil,
       ['<BS>'] = 'actions.parent',
       ['<Tab>'] = 'actions.select',
       ['.'] = { 'actions.toggle_hidden', mode = 'n' },
     },
-    use_default_keymaps = true,
-    view_options = {
-      show_hidden = false,
-      is_hidden_file = function(name, bufnr)
-        local m = name:match '^%.'
-        return m ~= nil
-      end,
-      is_always_hidden = function(name, bufnr)
-        return false
-      end,
-      natural_order = 'fast',
-      case_insensitive = false,
-      sort = {
-        { 'type', 'asc' },
-        { 'name', 'asc' },
-      },
-      highlight_filename = function(
-        entry,
-        is_hidden,
-        is_link_target,
-        is_link_orphan
-      )
-        return nil
-      end,
-    },
-    extra_scp_args = {},
-    extra_s3_args = {},
-    git = {
-      add = function(path)
-        return false
-      end,
-      mv = function(src_path, dest_path)
-        return false
-      end,
-      rm = function(path)
-        return false
-      end,
-    },
-    float = {
-      padding = 2,
-      max_width = 0,
-      max_height = 0,
-      border = nil,
-      win_options = {
-        winblend = 0,
-      },
-      get_win_title = nil,
-      preview_split = 'auto',
-      override = function(conf)
-        return conf
-      end,
-    },
-    preview_win = {
-      update_on_cursor_moved = true,
-      preview_method = 'fast_scratch',
-      disable_preview = function(filename)
-        return false
-      end,
-      win_options = {},
-    },
-    -- Disable confirmation window completely
     confirmation = {
       border = 'none',
     },
     progress = {
-      max_width = 0.9,
-      min_width = { 40, 0.4 },
-      width = nil,
       max_height = { 10, 0.9 },
-      min_height = { 5, 0.1 },
-      height = nil,
-      border = nil,
-      minimized_border = 'none',
-      win_options = {
-        winblend = 0,
-      },
-    },
-    ssh = {
-      border = nil,
-    },
-    keymaps_help = {
-      border = nil,
     },
   },
-
   keys = {
     {
       '<leader>e',
       function()
         if oil_first then
           oil_first = false
-          vim.cmd 'Oil .' -- first time: cwd
+          vim.cmd 'Oil .'
         else
-          vim.cmd 'Oil' -- later: normal behavior
+          vim.cmd 'Oil'
         end
       end,
       desc = 'Open parent directory',

@@ -141,7 +141,8 @@ return {
     end
     if #missing > 0 then
       vim.notify(
-        'fzf-lua: missing required binaries: ' .. table.concat(missing, ', ')
+        'fzf-lua: missing required binaries: '
+          .. table.concat(missing, ', ')
           .. '. Install with: sudo apt install fzf ripgrep fd-find',
         vim.log.levels.WARN
       )

@@ -82,36 +82,4 @@ m.run_project = function()
   end
 end
 
--- Run Project in tmux right 35%
-m.tmux_pane_right = function()
-  local project_dir = vim.fn.getcwd()
-  local script = project_dir .. '/run.sh'
-  if vim.fn.filereadable(script) == 0 then
-    vim.notify('No run.sh in project', vim.log.levels.ERROR)
-    return
-  end
-  if not vim.env.TMUX or vim.env.TMUX == '' then
-    vim.notify('Not inside a tmux session', vim.log.levels.ERROR)
-    return
-  end
-  local out = vim.fn.system {
-    'tmux',
-    'split-window',
-    '-h',
-    '-p',
-    '30',
-    '-c',
-    project_dir,
-    'zsh',
-    '-c',
-    script .. '; read -k1 "?Press any key to close..."; exit',
-  }
-  if vim.v.shell_error ~= 0 then
-    vim.notify(
-      'tmux split-window failed: ' .. (out or ''),
-      vim.log.levels.ERROR
-    )
-  end
-end
-
 return m

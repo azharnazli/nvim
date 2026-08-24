@@ -1,4 +1,3 @@
-require 'tmux_keybind'
 local keymap_helper = require 'keymaps_helper'
 
 vim.keymap.set(
@@ -22,13 +21,6 @@ end, { expr = true, silent = true })
 vim.keymap.set('n', '<leader>nX', function()
   _G.vim_state.hard_mode = not _G.vim_state.hard_mode
 end, { desc = 'Toggle Hardmode' })
-
-vim.keymap.set(
-  'n',
-  '<leader>pR',
-  keymap_helper.tmux_pane_right,
-  { desc = 'Project: Run in tmux right 35%' }
-)
 
 vim.keymap.set(
   'n',
@@ -138,22 +130,12 @@ vim.keymap.set('v', '<A-k>', function()
   vim.cmd "m '<-2"
 end, { desc = 'Move: move current block down' })
 
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==')     -- move line down(n)
-vim.keymap.set('v', '<A-j>', '')                 -- move line up(v)
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
+vim.keymap.set('v', '<A-j>', '') -- move line up(v)
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
 
-vim.keymap.set('v', '<C-d>', '<C-d>zz')          -- scroll down and center it
-vim.keymap.set('v', '<C-u>', '<C-u>zz')          -- scroll up and center it
-
-if os.getenv 'TMUX' then
-  vim.keymap.set('n', '<leader>fp', function()
-    os.execute "tmux split-window -v '/home/azharnazli/dotfile-main/script/tmux-sessionizer'"
-  end, { desc = 'tmux-sessionizer in split' })
-
-  vim.keymap.set('n', '<leader>nx', function()
-    os.execute 'tmux kill-window'
-  end, { desc = 'Kill tmux window' })
-end
+vim.keymap.set('v', '<C-d>', '<C-d>zz') -- scroll down and center it
+vim.keymap.set('v', '<C-u>', '<C-u>zz') -- scroll up and center it
 
 -- You can also specify a list of valid jump keywords
 vim.keymap.set(

@@ -14,6 +14,7 @@
   "gitlineage.nvim": { "branch": "main", "commit": "da795833925aae2e4d0cf75d2529d258bf4fb82c" },
   "gitsigns.nvim": { "branch": "main", "commit": "8d82c240f190fc33723d48c308ccc1ed8baad69d" },
   "haunt.nvim": { "branch": "main", "commit": "666d83868bac8b38f1dc765d9da6eca4d92c826f" },
+  "herdr-splits.nvim": { "branch": "main", "commit": "94f30cf4e9ac76ddf185a3acd0977be728fa4106" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },
   "inlay-hints.nvim": { "branch": "master", "commit": "11be32be3761c6263df2311afb6baa0de0863967" },
   "koda.nvim": { "branch": "main", "commit": "4668e307f2f3a1e38bd627b14d13368ebf5b8d9f" },
@@ -54,6 +55,7 @@
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" },
   "trouble.nvim": { "branch": "main", "commit": "bd67efe408d4816e25e8491cc5ad4088e708a69a" },
+  "typing-metrics.nvim": { "branch": "main", "commit": "b2ee8820562aa497f3a61c90f1fddcf9ab23d4fb" },
   "undotree": { "branch": "main", "commit": "0e6d41d55ad147407e4ba00a292973de8db0b836" },
   "vim-sleuth": { "branch": "master", "commit": "be69bff86754b1aa5adcbb527d7fcd1635a84080" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }

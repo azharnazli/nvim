@@ -52,7 +52,6 @@ return {
     'javascriptreact',
     'reason',
     'rescript',
-    'typescript',
     'typescriptreact',
     -- mixed
     'vue',

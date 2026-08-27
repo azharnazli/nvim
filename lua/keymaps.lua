@@ -185,6 +185,28 @@ vim.keymap.set(
   { noremap = true, silent = true, desc = 'Codediff current all' }
 )
 
+-- Toggle lazygit: floating popup via the herdr-lazygit plugin when Neovim runs
+-- inside Herdr, otherwise fall back to the installed lazygit.nvim.
+vim.keymap.set('n', '<leader>gg', function()
+  if vim.env.HERDR_ENV == '1' then
+    local herdr_bin = vim.env.HERDR_BIN_PATH or 'herdr'
+    vim.system(
+      { herdr_bin, 'plugin', 'action', 'invoke', 'open', '--plugin', 'herdr-lazygit' },
+      { text = true },
+      function(out)
+        if out.code ~= 0 then
+          vim.notify(
+            'herdr: failed to toggle lazygit popup: ' .. (out.stderr or ''),
+            vim.log.levels.ERROR
+          )
+        end
+      end
+    )
+  else
+    vim.cmd 'Lazygit'
+  end
+end, { desc = 'Git: toggle lazygit (Herdr floating popup / built-in)' })
+
 --auto command
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',

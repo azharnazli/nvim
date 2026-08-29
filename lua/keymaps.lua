@@ -116,23 +116,58 @@ vim.keymap.set(
 vim.keymap.set('n', '[b', '<cmd>bn<cr>', { desc = 'Move to next buffer' })
 vim.keymap.set('n', ']b', '<cmd>bp<cr>', { desc = 'Move to previous buffer' })
 
+-- Guard: move-line only runs in a real, editable editor buffer. Terminal
+-- buffers (fzf, lazygit, ...), prompt/quickfix buffers, unmodifiable buffers,
+-- and floating windows (fzf popup, which-key, ...) have their own <A-j>/<A-k>
+-- handling, so we let the keys fall through to them instead of moving a line.
+local function in_editor()
+  local buf = vim.api.nvim_get_current_buf()
+  local win = vim.api.nvim_get_current_win()
+
+  -- Terminal / prompt / quickfix buffers own the keys
+  if vim.bo[buf].buftype ~= '' then
+    return false
+  end
+  -- Readonly or otherwise non-editable buffer
+  if not vim.bo[buf].modifiable then
+    return false
+  end
+  -- Floating windows (fzf, which-key, notify, ...) own the keys
+  if vim.api.nvim_win_get_config(win).relative ~= '' then
+    return false
+  end
+  return true
+end
+
+local function move_line(fmt)
+  if in_editor() then
+    vim.cmd(fmt)
+  end
+end
+
 vim.keymap.set('n', '<A-j>', function()
-  vim.cmd 'm .+1'
+  move_line 'm .+1'
 end, { desc = 'Move: move current line down' })
-
 vim.keymap.set('n', '<A-k>', function()
-  vim.cmd 'm .-2'
-end, { desc = 'Move: move current line down' })
-vim.keymap.set('v', '<A-j>', function()
-  vim.cmd "m '>+1"
-end, { desc = 'Move: move current line down' })
-vim.keymap.set('v', '<A-k>', function()
-  vim.cmd "m '<-2"
-end, { desc = 'Move: move current block down' })
+  move_line 'm .-2'
+end, { desc = 'Move: move current line up' })
 
-vim.keymap.set('n', '<A-k>', ':m .-2<CR>==') -- move line down(n)
-vim.keymap.set('v', '<A-j>', '') -- move line up(v)
-vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv") -- move line down(v)
+-- Visual mode must use the command-line (string) form, not vim.cmd: the '<,'>
+-- range is only applied when ':' is entered from visual mode, and the '< '>
+-- marks aren't readable inside a vim.cmd callback (E20: Mark not set). The
+-- leading ':' makes Vim auto-apply the selection range; 'gv' re-selects.
+vim.keymap.set('v', '<A-j>', function()
+  if in_editor() then
+    return vim.api.nvim_replace_termcodes(":m '>+1<CR>gv", false, false, true)
+  end
+  return ''
+end, { expr = true, desc = 'Move: move selected lines down' })
+vim.keymap.set('v', '<A-k>', function()
+  if in_editor() then
+    return vim.api.nvim_replace_termcodes(":m '<-2<CR>gv", false, false, true)
+  end
+  return ''
+end, { expr = true, desc = 'Move: move selected lines up' })
 
 vim.keymap.set('v', '<C-d>', '<C-d>zz') -- scroll down and center it
 vim.keymap.set('v', '<C-u>', '<C-u>zz') -- scroll up and center it

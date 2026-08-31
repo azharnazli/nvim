@@ -82,4 +82,34 @@ m.run_project = function()
   end
 end
 
+-- Run current buffer with bun (TS/JS only)
+m.run_bun = function()
+  local buf = vim.api.nvim_get_current_buf()
+  local file = vim.api.nvim_buf_get_name(buf)
+
+  -- Only TS/JS buffers can be run with bun
+  local bun_filetypes = {
+    typescript = true,
+    typescriptreact = true,
+    javascript = true,
+    javascriptreact = true,
+  }
+  if not bun_filetypes[vim.bo[buf].filetype] then
+    vim.notify(
+      'bun: current buffer is not a TS/JS file (' .. vim.bo[buf].filetype .. ')',
+      vim.log.levels.WARN
+    )
+    return
+  end
+
+  local Terminal = require('toggleterm.terminal').Terminal
+  local term = Terminal:new {
+    cmd = 'bun run ' .. vim.fn.fnameescape(file),
+    direction = 'horizontal', -- open a terminal at the bottom
+    close_on_exit = false,
+    name = 'run_bun',
+  }
+  term:open()
+end
+
 return m

@@ -81,6 +81,13 @@ vim.keymap.set('n', '<leader>bl', function()
   vim.cmd('e ' .. vim.g.last_path)
 end, { desc = 'Resume last close buffer' })
 
+vim.keymap.set(
+  'n',
+  '<leader>br',
+  keymap_helper.run_bun,
+  { desc = 'Bun: run current buffer (TS/JS)' }
+)
+
 vim.keymap.set('n', '<C-s>', '<cmd>:w<cr>', { desc = 'Save current file' })
 vim.keymap.set(
   'n',

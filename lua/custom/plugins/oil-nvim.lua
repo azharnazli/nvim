@@ -95,6 +95,25 @@ return {
       end,
       desc = 'Open parent directory',
     },
+    {
+      '<leader>pp',
+      function()
+        local dir = require('oil').get_current_dir()
+        if not dir then
+          vim.notify(
+            'oil: current window is not an oil buffer',
+            vim.log.levels.WARN
+          )
+          return
+        end
+        vim.fn.chdir(dir)
+        vim.notify(
+          'Project root: ' .. vim.fn.getcwd(),
+          vim.log.levels.INFO
+        )
+      end,
+      desc = 'Set project root to current folder',
+    },
   },
   dependencies = { { 'nvim-mini/mini.icons', opts = {} } },
 }

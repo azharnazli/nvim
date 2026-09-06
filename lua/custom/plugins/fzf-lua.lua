@@ -130,6 +130,15 @@ return {
       '<cmd>lua require("fzf-lua").diagnostics_workspace()<cr>',
       desc = 'Workspace Diagnostics',
     },
+    {
+      '<leader>fW',
+      function()
+        require('fzf-lua').live_grep {
+          rg_opts = '--column --line-number --no-heading --color=always -w -i',
+        }
+      end,
+      desc = 'Find whole word (case-insensitive)',
+    },
   },
   config = function(_, opts)
     require('fzf-lua').setup(opts)

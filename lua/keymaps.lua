@@ -7,6 +7,10 @@ vim.keymap.set(
   { desc = 'Project: Run Project' }
 )
 
+vim.keymap.set('n', '<leader>cm', '<cmd>CodemapToggle<cr>', {
+  desc = 'Toggle Codemap',
+})
+
 vim.keymap.set('n', '<leader>fG', function()
   vim.cmd 'GitChangedFzf'
 end, { desc = 'Find: Changed Update File' })

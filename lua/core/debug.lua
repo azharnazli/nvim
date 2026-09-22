@@ -20,6 +20,19 @@ return {
   },
   keys = {
     {
+      '<leader>da',
+      function()
+        require('dap').run {
+          type = 'go',
+          name = 'Attach Go Process',
+          request = 'attach',
+          mode = 'local',
+          processId = require('dap.utils').pick_process,
+        }
+      end,
+      desc = 'Debug: Attach Go Process',
+    },
+    {
       '<F5>',
       function()
         local dap = require 'dap'
@@ -40,9 +53,28 @@ return {
         local program = table.remove(parts, 1)
         local args = parts
 
-        -- run using your existing selected configuration, but override program/args
+        local configurations = dap.configurations[vim.bo.filetype]
+        if not configurations then
+          vim.notify(
+            'No debugger configuration for ' .. vim.bo.filetype,
+            vim.log.levels.WARN
+          )
+          return
+        end
+
+        local configuration = configurations[1]
+        if vim.bo.filetype == 'go' then
+          for _, candidate in ipairs(configurations) do
+            if candidate.type == 'go' then
+              configuration = candidate
+              break
+            end
+          end
+        end
+
+        -- run using the language configuration, but override program/args
         dap.run(
-          vim.tbl_extend('force', dap.configurations[vim.bo.filetype][1], {
+          vim.tbl_extend('force', configuration, {
             program = program,
             args = args,
           })
